@@ -26,7 +26,7 @@
                                 <!-- Form để bỏ theo dõi -->
                                 <form asp-controller="GameFollow" asp-action="Unfollow" method="post" data-game-id="@game.Id">
                                     @Html.AntiForgeryToken()
-                                    <input type="hidden" name="gameId" value="@game.Id" />
+                                    <input type="hidden" name="id" value="@game.Id" />
                                     <button type="submit" class="btn btn-outline-danger btn-sm">Bỏ theo dõi</button>
                                 </form>
                             </div>
@@ -67,38 +67,11 @@
                     
                     const result = await response.json();
 
-                    if (result.success) {
-                        // Remove the game card from the view
-                        const card = form.closest('.col');
-                        if (card) {
-                            card.remove();
-                        }
-                        // Optionally show a success message to the user
-                        console.log(result.message);
-
-                        // Check if there are any games left, if not, show the 'no games' message
-                        if (document.querySelectorAll('.col').length === 0) {
-                             const container = form.closest('.container');
-                             const noGamesAlert = `
-                                 <div class="alert alert-info" role="alert">
-                                     Bạn chưa theo dõi game nào. Hãy tìm kiếm và theo dõi game yêu thích của bạn! 
-                                     <a href="@Url.Action("Index", "Game")" class="alert-link">Xem danh sách game</a>.
-                                 </div>
-                             `;
-                             // Remove existing rows/cards container
-                             const rowContainer = container.querySelector('.row-cols-1');
-                             if(rowContainer) rowContainer.remove();
-
-                             // Add the no games alert
-                             container.innerHTML += noGamesAlert;
-                        }
-
-                    } else {
-                        alert(result.message);
+                    if (result.success || result.message === "You are not following this game.") {
+                        window.location.reload();
                     }
                 } catch (error) {
                     console.error('Error:', error);
-                    alert('Đã xảy ra lỗi khi bỏ theo dõi.');
                 }
             });
         });
