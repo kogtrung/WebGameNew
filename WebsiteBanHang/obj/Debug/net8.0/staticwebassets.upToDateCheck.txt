@@ -131,8 +131,8 @@ wwwroot\images\games\header (9).jpg
 wwwroot\images\games\header.jpg
 wwwroot\images\games\header77.jpg
 wwwroot\images\games\maxresdefault.jpg
-wwwroot\images\games\Pikmin_icon_4.jpg
 wwwroot\images\games\phwiQjbJddEg979YucUoP3Vr.avif
+wwwroot\images\games\Pikmin_icon_4.jpg
 wwwroot\images\games\spider-man-2-keyart-01-en-7june24.webp
 wwwroot\images\games\ss_18eadd6859ed15531d25cd67fe1d2402e9bf75b3.1920x1080.jpg
 wwwroot\images\games\steel-magnolia-15owu.jpg
