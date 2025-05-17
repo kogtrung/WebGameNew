@@ -629,6 +629,56 @@ namespace WebGame.Controllers
             return View(game);
         }
 
-        // ... existing code ...
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SubmitReview(int gameId, string reviewText, int score)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var game = await _context.Games.FindAsync(gameId);
+            if (game == null)
+            {
+                return NotFound();
+            }
+
+            var review = new Review
+            {
+                GameId = gameId,
+                UserId = user.Id,
+                Content = reviewText,
+                Score = score,
+                ReviewDate = DateTime.Now,
+                CriticName = user.UserName,
+                CriticWebsite = "",
+                Title = game.Title
+            };
+
+            _context.Reviews.Add(review);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Details", new { id = gameId });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Search(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                return View("SearchResults", new List<Game>());
+            }
+            var games = await _context.Games
+                .Where(g => g.Title.Contains(query) || g.Genre.Contains(query))
+                .ToListAsync();
+            return View("SearchResults", games);
+        }
     }
 } 

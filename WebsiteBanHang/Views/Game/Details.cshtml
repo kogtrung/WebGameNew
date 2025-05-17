@@ -78,28 +78,28 @@
         padding: 0;
         margin-bottom: 20px;
     }
-    
-    .where-to-buy .section-title {
-        color: white;
-        background-color: #007bff;
-        padding: 12px 15px;
-        margin: 0;
-        font-size: 18px;
-        font-weight: 600;
-        border-bottom: none;
-        display: flex;
-        align-items: center;
-    }
-    
-    .where-to-buy .section-title i {
-        margin-right: 10px;
-    }
-    
+
+        .where-to-buy .section-title {
+            color: white;
+            background-color: #007bff;
+            padding: 12px 15px;
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+            border-bottom: none;
+            display: flex;
+            align-items: center;
+        }
+
+            .where-to-buy .section-title i {
+                margin-right: 10px;
+            }
+
     .store-cards-container {
         border: 1px solid #e9e9e9;
         border-top: none;
     }
-    
+
     .where-to-buy .card {
         border: none;
         border-bottom: 1px solid #e9e9e9;
@@ -107,34 +107,34 @@
         margin-bottom: 0;
         background-color: white;
     }
-    
-    .where-to-buy .card:last-child {
-        border-bottom: none;
-    }
-    
+
+        .where-to-buy .card:last-child {
+            border-bottom: none;
+        }
+
     .store-card {
         margin-bottom: 0;
     }
-    
-    .store-card a {
-        text-decoration: none;
-        color: inherit;
-    }
-    
-    .store-card .card-body {
-        padding: 15px 20px;
-    }
-    
-    .store-card h6 {
-        margin-bottom: 5px;
-        font-weight: 600;
-        font-size: 16px;
-    }
-    
-    .store-card .text-primary {
-        color: #007bff !important;
-        font-size: 18px;
-    }
+
+        .store-card a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .store-card .card-body {
+            padding: 15px 20px;
+        }
+
+        .store-card h6 {
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .store-card .text-primary {
+            color: #007bff !important;
+            font-size: 18px;
+        }
 
     .section-title {
         font-size: 20px;
@@ -261,7 +261,7 @@
                 <div class="d-flex justify-content-md-end">
                     <div class="score-display">
                         <div class="metascore @(Model.MetaScore >= 90 ? "excellent" : (Model.MetaScore >= 75 ? "good" : "mixed"))" style="top:10%">
-                            @Model.MetaScore
+                            @(Model.MetaScore.ToString("0"))
                         </div>
                         <div class="score-label">Metascore</div>
                     </div>
@@ -269,7 +269,7 @@
                     {
                         <div class="score-display ms-3">
                             <div class="userscore @(Model.UserScore >= 8 ? "excellent" : (Model.UserScore >= 6 ? "good" : "mixed"))">
-                                @Model.UserScore
+                                @(Model.UserScore.ToString("0"))
                             </div>
                             <div class="score-label">User Score</div>
                         </div>
@@ -337,14 +337,14 @@
                 }
             }
 
-                <div class="game-info-section">
-                    <h2 class="section-title">
-                        <i class="fas fa-play-circle me-2"></i>GAME TRAILER
-                    </h2>
+            <div class="game-info-section">
+                <h2 class="section-title">
+                    <i class="fas fa-play-circle me-2"></i>GAME TRAILER
+                </h2>
                 @{
                     var videoUrl = !string.IsNullOrEmpty(Model.TrailerUrl) ? Model.TrailerUrl : Model.VideoUrl;
                     var embedUrl = !string.IsNullOrEmpty(videoUrl) ? ConvertToEmbedUrl(videoUrl) : "";
-                    
+
                     if (!string.IsNullOrEmpty(embedUrl))
                     {
                         <div class="video-container">
@@ -361,8 +361,8 @@
                             <p>No trailer available for this game yet.</p>
                         </div>
                     }
-                    }
-                </div>
+                }
+            </div>
 
             <!-- Screenshot Gallery -->
             @if (!string.IsNullOrEmpty(Model.Screenshot))
@@ -389,10 +389,10 @@
 
 
 
-           
 
 
-           <!-- Summary Section -->
+
+            <!-- Summary Section -->
             <div class="game-info-section">
                 <h2 class="section-title">
                     <i class="fas fa-info-circle me-2"></i>SUMMARY
@@ -439,7 +439,7 @@
                         <div class="comparison-item">
                             <div class="comparison-title mb-2 small text-uppercase text-muted">Metascore</div>
                             <div class="comparison-score @(Model.MetaScore >= 90 ? "text-success" : (Model.MetaScore >= 75 ? "text-warning" : "text-danger"))">
-                                @Model.MetaScore
+                                @(Model.MetaScore.ToString("0"))
                             </div>
                         </div>
                     </div>
@@ -456,7 +456,7 @@
                             }
 
                             <div class="comparison-score text-warning">
-                                @(avgUserScore.HasValue ? avgUserScore.Value.ToString("0.0") : "TBD")
+                                @(avgUserScore.HasValue ? avgUserScore.Value.ToString("0") : "TBD")
                             </div>
                             <div class="comparison-count">
                                 Based on @(reviewCount > 0 ? reviewCount : "no") ratings
@@ -469,8 +469,8 @@
                         <div class="comparison-item">
                             <div class="comparison-title mb-2 small text-uppercase text-muted">Trending Score</div>
                             <div class="comparison-score text-primary">
-                                @(Model.TrendingScore > 0 ? Model.TrendingScore.ToString("0.0") : "TBD")
-                               
+                                @(Model.TrendingScore > 0 ? Model.TrendingScore.ToString("0") : "TBD")
+
                             </div>
                             <div class="comparison-count">
                                 Past 7 days
@@ -494,10 +494,10 @@
                         <div class="review-card" data-review-id="@review.Id">
                             <div class="review-header">
                                 <div>
-                                    <small class="text-muted">By @review.UserId on @review.ReviewDate.ToString("MMM d, yyyy")</small>
+                                    <small class="text-muted">By @review.CriticName on @review.ReviewDate.ToString("MMM d, yyyy")</small>
                                 </div>
                                 <div class="review-score @(review.Score >= 8 ? "bg-success" : (review.Score >= 6 ? "bg-warning" : "bg-danger"))">
-                                    @review.Score
+                                    @(review.Score.ToString("0"))
                                 </div>
                             </div>
                             <p>@review.Content</p>
@@ -522,13 +522,12 @@
                     <h2 class="section-title">
                         <i class="fas fa-pen me-2"></i>WRITE A REVIEW
                     </h2>
-                    <form asp-action="Review" asp-controller="Game" method="post">
+                    <form asp-action="SubmitReview" asp-controller="Game" method="post">
                         @Html.AntiForgeryToken()
                         <input type="hidden" name="gameId" value="@Model.Id" />
-                       
                         <div class="mb-3">
                             <label class="form-label">Review</label>
-                            <textarea name="content" class="form-control" rows="4" required></textarea>
+                            <textarea name="reviewText" class="form-control" rows="4" required></textarea>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Score (0-100)</label>
@@ -717,12 +716,12 @@
                     helpfulButton.classList.add('btn-success');
                     helpfulButton.classList.remove('btn-outline-secondary');
                 } else {
-                    alert(data.message || 'Error updating review');
+                    // alert(data.message || 'Error updating review'); // Giữ lại nếu muốn báo lỗi, còn không thì xóa dòng này
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Error updating review');
+                // alert('Error updating review');
             });
         }
 
@@ -756,15 +755,13 @@
                 const result = await response.json();
 
                 if (result.success) {
-                    alert(result.message);
-                    // Reload the page or update the button dynamically
-                     window.location.reload(); // Simple reload for now
+                    window.location.reload(); // Simple reload for now
                 } else {
-                    alert(result.message);
+                    // alert(result.message); // Giữ lại nếu muốn báo lỗi, còn không thì xóa dòng này
                 }
             } catch (error) {
                 console.error('Error:', error);
-                alert('Đã xảy ra lỗi.');
+                // alert('Đã xảy ra lỗi.');
             }
         }
     </script>
