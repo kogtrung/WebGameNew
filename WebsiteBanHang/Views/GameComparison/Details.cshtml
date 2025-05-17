@@ -1,0 +1,211 @@
+@model WebGame.Models.GameComparison
+
+@{
+    ViewData["Title"] = Model.Name;
+    var userOwnsComparison = ViewBag.UserOwnsComparison ?? false;
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Bảng so sánh: @Model.Name</h1>
+
+    <p class="text-muted">
+        Tạo lúc: @Model.CreatedAt.ToString("g") - Cập nhật cuối: @Model.LastUpdated?.ToString("g")
+        @if (Model.IsPublic)
+        {
+            <span class="badge bg-info">Công khai</span>
+        }
+        else
+        {
+            <span class="badge bg-secondary">Riêng tư</span>
+        }
+    </p>
+
+    @if (userOwnsComparison)
+    {
+        <div class="mb-3">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-secondary btn-sm">Chỉnh sửa bảng so sánh</a>
+             <!-- Form để xóa bảng so sánh -->
+            <form asp-action="Delete" asp-route-id="@Model.Id" method="post" onsubmit="return confirm('Bạn có chắc chắn muốn xóa bảng so sánh này?');" class="d-inline ms-2">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-danger btn-sm">Xóa bảng so sánh</button>
+            </form>
+        </div>
+    }
+
+    @if (Model.Games != null && Model.Games.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th></th> <!-- For Game Image -->
+                        <th>Tiêu đề</th>
+                        <th>Nhà phát triển</th>
+                        <th>Nhà phát hành</th>
+                        <th>Ngày phát hành</th>
+                        <th>Nền tảng</th>
+                        <th>Thể loại</th>
+                        <th>Metascore</th>
+                        <th>Điểm người dùng</th>
+                        <th>Rating</th>
+                         @if (userOwnsComparison)
+                        {
+                             <th></th> <!-- For Remove Button -->
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Games.OrderBy(g => g.Order))
+                    {
+                        <tr>
+                            <td>
+                                @if (!string.IsNullOrEmpty(item.Game.ImageUrl))
+                                {
+                                    <img src="@item.Game.ImageUrl" alt="@item.Game.Title" style="width: 80px; height: auto;" class="img-thumbnail" />
+                                }
+                            </td>
+                            <td><a href="@Url.Action("Details", "Game", new { id = item.Game.Id })">@item.Game.Title</a></td>
+                            <td>@item.Game.Developer</td>
+                            <td>@item.Game.Publisher</td>
+                            <td>@(item.Game.ReleaseDate.HasValue ? item.Game.ReleaseDate.Value.ToString("yyyy-MM-dd") : "TBA")</td>
+                            <td>@await Html.PartialAsync("_PlatformDisplay", item.Game)</td>
+                            <td>@item.Game.Genre</td>
+                            <td>
+                                @if (item.Game.MetaScore > 0)
+                                {
+                                    <span class="badge @(item.Game.MetaScore >= 90 ? "bg-success" : (item.Game.MetaScore >= 75 ? "bg-warning" : "bg-danger"))">
+                                        @item.Game.MetaScore
+                                    </span>
+                                } else { <span>TBD</span> }
+                            </td>
+                            <td>
+                                @{
+                                    var userScore = item.Game.Reviews != null && item.Game.Reviews.Any()
+                                        ? Math.Round(item.Game.Reviews.Average(r => r.Score), 1)
+                                        : (decimal?)null;
+                                }
+                                @(userScore.HasValue ? userScore.Value.ToString("0.0") : "TBD")
+                            </td>
+                            <td>@item.Game.Rating</td>
+                             @if (userOwnsComparison)
+                            {
+                                 <td>
+                                     <form asp-controller="GameComparison" asp-action="RemoveItem" method="post" data-item-id="@item.Id">
+                                         @Html.AntiForgeryToken()
+                                         <input type="hidden" name="itemId" value="@item.Id" />
+                                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa game này khỏi bảng so sánh?');">Xóa</button>
+                                     </form>
+                                 </td>
+                            }
+                        </tr>
+                        @if (!string.IsNullOrEmpty(item.Notes))
+                        {
+                            <tr>
+                                <td colspan="@(userOwnsComparison ? 11 : 10)" class="table-light">
+                                    <strong>Ghi chú:</strong> @item.Notes
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @if (userOwnsComparison)
+        {
+             <div class="mt-4">
+                <h4>Thêm game vào bảng so sánh</h4>
+                @* Implement game search and add form here later *@
+                 <p class="text-muted">Chức năng tìm kiếm và thêm game sẽ được thêm sau.</p>
+            </div>
+        }
+
+    }
+    else
+    {
+        <div class="alert alert-info" role="alert">
+            Bảng so sánh này chưa có game nào. @(userOwnsComparison ? "Hãy thêm game vào!" : "")
+        </div>
+         @if (userOwnsComparison)
+        {
+             <div class="mt-4">
+                <h4>Thêm game vào bảng so sánh</h4>
+                 @* Implement game search and add form here later *@
+                  <p class="text-muted">Chức năng tìm kiếm và thêm game sẽ được thêm sau.</p>
+            </div>
+        }
+    }
+
+</div>
+
+@section Scripts {
+    <script>
+        // Script để xử lý việc xóa game khỏi bảng so sánh (sử dụng Fetch API)
+        document.querySelectorAll('form[data-item-id]').forEach(form => {
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                const itemId = form.dataset.itemId;
+                const url = form.action;
+                const method = form.method;
+                const formData = new FormData(form);
+
+                try {
+                    const response = await fetch(url, {
+                        method: method,
+                        body: formData,
+                         headers: {
+                            'RequestVerificationToken': formData.get('__RequestVerificationToken')
+                        }
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        // Remove the row from the table
+                        const row = form.closest('tr');
+                         if (row) {
+                             // Also remove the notes row if it exists below the current row
+                             const nextRow = row.nextElementSibling;
+                             if (nextRow && nextRow.classList.contains('table-light') && nextRow.querySelector('strong')?.textContent.includes('Ghi chú:')) {
+                                 nextRow.remove();
+                             }
+                            row.remove();
+                         }
+                        console.log(result.message);
+
+                         // Check if the table is empty after removal
+                         const tbody = form.closest('tbody');
+                         if (tbody && tbody.querySelectorAll('tr').length === 0) {
+                             const tableContainer = form.closest('.table-responsive');
+                             if(tableContainer) tableContainer.remove();
+
+                             const container = form.closest('.container');
+                              const emptyComparisonAlert = `
+                                <div class="alert alert-info" role="alert">
+                                    Bảng so sánh này chưa có game nào. @(userOwnsComparison ? "Hãy thêm game vào!" : "")
+                                </div>
+                                @if (userOwnsComparison)
+                                 {
+                                      <div class="mt-4">
+                                         <h4>Thêm game vào bảng so sánh</h4>
+                                          @* Implement game search and add form here later *@
+                                           <p class="text-muted">Chức năng tìm kiếm và thêm game sẽ được thêm sau.</p>
+                                     </div>
+                                 }
+                             `;
+                              container.innerHTML += emptyComparisonAlert;
+
+                         }
+
+                    } else {
+                        alert(result.message);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Đã xảy ra lỗi khi xóa game khỏi bảng so sánh.');
+                }
+            });
+        });
+    </script>
+} 

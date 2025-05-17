@@ -1,0 +1,107 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using WebsiteBanHang.Models;
+using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using System.Diagnostics;
+using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
+using WebsiteBanHang.Services;
+using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
+
+namespace WebsiteBanHang.Controllers
+{
+    public class GameController : Controller
+    {
+        private readonly ApplicationDbContext _context;
+        private readonly ILogger<GameController> _logger;
+        private readonly IGameImageService _gameImageService;
+
+        public GameController(ApplicationDbContext context, ILogger<GameController> logger, IGameImageService gameImageService)
+        {
+            _context = context;
+            _logger = logger;
+            _gameImageService = gameImageService;
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Review(int gameId, string title, string content, int score)
+        {
+            try
+            {
+                var game = await _context.Games.FindAsync(gameId);
+                if (game == null)
+                {
+                    return NotFound();
+                }
+
+                // Lấy UserId từ ClaimsPrincipal
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return BadRequest("User not found");
+                }
+
+                var review = new Review
+                {
+                    GameId = gameId,
+                    UserId = userId, // Sử dụng Id thay vì Username
+                    Title = title,
+                    Content = content,
+                    Score = score,
+                    ReviewDate = DateTime.Now,
+                    HelpfulCount = 0,
+                    UnhelpfulCount = 0
+                };
+
+                _context.Reviews.Add(review);
+                await _context.SaveChangesAsync();
+
+                // Cập nhật điểm số trung bình và số lượng review
+                var reviews = await _context.Reviews.Where(r => r.GameId == gameId).ToListAsync();
+                game.UserScore = (int)reviews.Average(r => r.Score);
+                game.UserReviewCount = reviews.Count;
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Details), new { id = gameId });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error submitting review");
+                return View("Error", new ErrorViewModel 
+                { 
+                    RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+                    Message = "Có lỗi xảy ra khi gửi đánh giá. Vui lòng thử lại sau."
+                });
+            }
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> MarkHelpful(int id)
+        {
+            try
+            {
+                var review = await _context.Reviews.FindAsync(id);
+                if (review == null)
+                {
+                    return Json(new { success = false, message = "Review not found" });
+                }
+
+                // Increment helpful count
+                review.HelpfulCount++;
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, helpfulCount = review.HelpfulCount });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error marking review as helpful");
+                return Json(new { success = false, message = "Error updating review" });
+            }
+        }
+    }
+} 

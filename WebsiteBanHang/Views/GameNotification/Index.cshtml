@@ -1,0 +1,70 @@
+@model IEnumerable<WebGame.Models.GameNotification>
+
+@{
+    ViewData["Title"] = "Thông báo của bạn";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Thông báo của bạn</h1>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="list-group">
+            @foreach (var notification in Model)
+            {
+                <div class="list-group-item list-group-item-action @(!notification.IsRead ? "list-group-item-light" : "")" data-notification-id="@notification.Id">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">@notification.Title</h5>
+                        <small>@notification.CreatedAt.ToString("g")</small>
+                    </div>
+                    <p class="mb-1">@notification.Message</p>
+                    @if (notification.Game != null)
+                    {
+                        <small class="text-muted">Liên quan đến game: <a href="@Url.Action("Details", "Game", new { id = notification.Game.Id })">@notification.Game.Title</a></small>
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="mt-3">
+            <button id="markAllAsReadBtn" class="btn btn-sm btn-secondary">Đánh dấu tất cả là đã đọc</button>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info" role="alert">
+            Bạn không có thông báo nào mới.
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('markAllAsReadBtn')?.addEventListener('click', async () => {
+            try {
+                const response = await fetch('/GameNotification/MarkAllAsRead', {
+                    method: 'POST',
+                    headers: {
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                    }
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    document.querySelectorAll('.list-group-item').forEach(item => {
+                        item.classList.remove('list-group-item-light');
+                    });
+                    // Optionally show a success message
+                    console.log(`Đã đánh dấu ${result.count} thông báo là đã đọc.`);
+                    document.getElementById('markAllAsReadBtn').style.display = 'none'; // Hide the button
+                } else {
+                    alert(result.message || 'Đã xảy ra lỗi khi đánh dấu là đã đọc.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Đã xảy ra lỗi khi gửi yêu cầu.');
+            }
+        });
+    </script>
+} 

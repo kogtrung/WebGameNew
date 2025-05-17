@@ -1,0 +1,213 @@
+@model Dictionary<DateTime, List<WebGame.Models.Game>>
+
+@{
+    ViewData["Title"] = "New Releases";
+    var months = new Dictionary<int, string>
+    {
+        { 1, "January" }, { 2, "February" }, { 3, "March" }, { 4, "April" },
+        { 5, "May" }, { 6, "June" }, { 7, "July" }, { 8, "August" },
+        { 9, "September" }, { 10, "October" }, { 11, "November" }, { 12, "December" }
+    };
+}
+
+<style>
+    .month-section {
+        margin-bottom: 40px;
+    }
+    
+    .month-title {
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #ffc107;
+        color: #333;
+    }
+    
+    .game-card {
+        border-radius: 8px;
+        overflow: hidden;
+        position: relative;
+        height: 100%;
+        border: 1px solid #e9ecef;
+        background-color: #fff;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        margin-bottom: 20px;
+    }
+    
+    .game-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .game-image-container {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .game-image {
+        height: 180px;
+        object-fit: cover;
+        width: 100%;
+    }
+    
+    .game-info {
+        padding: 15px;
+    }
+    
+    .game-title {
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        line-height: 1.3;
+    }
+    
+    .game-platform {
+        font-size: 13px;
+        color: #666;
+        margin-bottom: 4px;
+    }
+    
+    .game-release-date {
+        font-size: 13px;
+        color: #666;
+    }
+    
+    .metascore {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: white;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+    
+    .high {
+        background-color: #6c3;
+    }
+    
+    .medium {
+        background-color: #fc3;
+    }
+    
+    .low {
+        background-color: #f00;
+    }
+    
+    .must-play-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: #ffcc00;
+        color: #333;
+        padding: 4px 8px;
+        font-size: 12px;
+        font-weight: 700;
+        border-radius: 3px;
+    }
+    
+    .page-header {
+        background-color: #f8f9fa;
+        padding: 30px 0;
+        margin-bottom: 30px;
+        border-bottom: 1px solid #e9ecef;
+    }
+    
+    .section-title {
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: #333;
+    }
+    
+    .section-description {
+        font-size: 16px;
+        color: #6c757d;
+        max-width: 700px;
+    }
+</style>
+
+<div class="page-header">
+    <div class="container">
+        <h1 class="section-title">New Game Releases</h1>
+        <p class="section-description">
+            Explore the latest game releases, organized by month. Find new titles across all platforms and genres.
+        </p>
+    </div>
+</div>
+
+<div class="container">
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">
+            <p>No recent game releases found. Check back later for updates.</p>
+        </div>
+    }
+    else
+    {
+        @foreach (var monthGroup in Model)
+        {
+            var monthDate = monthGroup.Key;
+            var games = monthGroup.Value;
+            
+            <div class="month-section">
+                <h2 class="month-title">@months[monthDate.Month] @monthDate.Year</h2>
+                
+                <div class="row">
+                    @foreach (var game in games)
+                    {
+                        <div class="col-md-4 col-lg-3 mb-4">
+                            <div class="game-card h-100">
+                                <div class="game-image-container">
+                                    <a href="@Url.Action("Details", "Game", new { id = game.Id })">
+                                        <img src="@game.ImageUrl" alt="@game.Title" class="game-image"
+                                             onerror="this.onerror=null; this.src='/images/game-placeholder.jpg';">
+                                             
+                                        @if (game.MetaScore >= 90)
+                                        {
+                                            <div class="must-play-badge">Must-Play</div>
+                                        }
+                                        
+                                        <div class="metascore @(game.MetaScore >= 75 ? "high" : (game.MetaScore >= 50 ? "medium" : "low"))">
+                                            @game.MetaScore
+                                        </div>
+                                    </a>
+                                </div>
+                                
+                                <div class="game-info">
+                                    <h3 class="game-title">
+                                        <a href="@Url.Action("Details", "Game", new { id = game.Id })" class="text-decoration-none text-dark">
+                                            @game.Title
+                                        </a>
+                                    </h3>
+                                    <div class="game-platform">
+                                        @await Html.PartialAsync("_PlatformDisplay", game)
+                                    </div>
+                                    <div class="game-release-date">
+                                        @(game.ReleaseDate.HasValue ? game.ReleaseDate.Value.ToString("MMM d, yyyy") : "TBA")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    }
+    
+    
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Any JavaScript functionality can be added here
+        });
+    </script>
+} 
