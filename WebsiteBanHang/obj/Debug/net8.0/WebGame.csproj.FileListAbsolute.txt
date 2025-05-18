@@ -269,10 +269,12 @@ C:\Workspace\Project Cơ sở\WebGameFinal\WebsiteBanHang\obj\Debug\net8.0\stati
 C:\Workspace\Project Cơ sở\WebGameFinal\WebsiteBanHang\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.WebGame.props
 C:\Workspace\Project Cơ sở\WebGameFinal\WebsiteBanHang\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.WebGame.props
 C:\Workspace\Project Cơ sở\WebGameFinal\WebsiteBanHang\obj\Debug\net8.0\staticwebassets.pack.json
-C:\Workspace\Project Cơ sở\WebGameFinal\WebsiteBanHang\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Workspace\Project Cơ sở\WebGameFinal\WebsiteBanHang\obj\Debug\net8.0\WebGame.csproj.Up2Date
 C:\Workspace\Project Cơ sở\WebGameFinal\WebsiteBanHang\obj\Debug\net8.0\WebGame.dll
 C:\Workspace\Project Cơ sở\WebGameFinal\WebsiteBanHang\obj\Debug\net8.0\refint\WebGame.dll
 C:\Workspace\Project Cơ sở\WebGameFinal\WebsiteBanHang\obj\Debug\net8.0\WebGame.pdb
 C:\Workspace\Project Cơ sở\WebGameFinal\WebsiteBanHang\obj\Debug\net8.0\WebGame.genruntimeconfig.cache
 C:\Workspace\Project Cơ sở\WebGameFinal\WebsiteBanHang\obj\Debug\net8.0\ref\WebGame.dll
+C:\Workspace\Project Cơ sở\WebGameFinal\WebsiteBanHang\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.Google.dll
+C:\Workspace\Project Cơ sở\WebGameFinal\WebsiteBanHang\obj\Debug\net8.0\WebGame.sourcelink.json
+C:\Workspace\Project Cơ sở\WebGameFinal\WebsiteBanHang\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
