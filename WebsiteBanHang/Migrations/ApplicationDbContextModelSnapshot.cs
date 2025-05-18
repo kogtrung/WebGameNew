@@ -218,6 +218,7 @@ namespace WebGame.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+
                     b.Property<int?>("YearOfBirth")
                         .IsRequired()
                         .HasColumnType("int");

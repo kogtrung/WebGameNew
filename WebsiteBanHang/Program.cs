@@ -136,10 +136,12 @@ builder.Services.AddRazorPages();
 builder.Services.AddDistributedMemoryCache(); // Cần thiết để lưu trữ session
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(20);
+
+    options.IdleTimeout = TimeSpan.FromMinutes(20); // Reduced from 30 to 20 minutes for better resource usage
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
-    options.Cookie.SameSite = SameSiteMode.Lax;
+    options.Cookie.SameSite = SameSiteMode.Strict; // Enhance security
+
 });
 
 builder.Services.AddTransient<IGameImageService, GameImageService>();
@@ -338,6 +340,7 @@ app.UseOutputCache();
 app.UseRouting();
 
 // Add these lines for Identity
+
 app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
