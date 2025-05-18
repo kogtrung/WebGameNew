@@ -157,8 +157,8 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddAuthentication()
     .AddGoogle(googleOptions =>
     {
-        googleOptions.ClientId = builder.Configuration["Google:ClientId"] ?? "";
-        googleOptions.ClientSecret = builder.Configuration["Google:ClientSecret"] ?? "";
+        googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"] ?? "";
+        googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"] ?? "";
         googleOptions.CallbackPath = "/signin-google";
         googleOptions.SaveTokens = true;
         googleOptions.Events.OnCreatingTicket = async context =>

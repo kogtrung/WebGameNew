@@ -9,4 +9,6 @@
 *.exe
 *.pdb
 *.cache
-/WebsiteBanHang/obj/Debug/net8.0
+/WebsiteBanHang/obj
+/WebsiteBanHang/bin
+WebsiteBanHang/appsettings.json
