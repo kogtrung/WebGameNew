@@ -243,6 +243,26 @@
             -webkit-text-fill-color: #333 !important;
             -webkit-box-shadow: 0 0 0px 1000px #fff inset;
         }
+
+    .btn-outline-warning.d-flex {
+        background: #ff0057;
+        color: #fff !important;
+        border: none;
+    }
+    .btn-outline-warning.d-flex:hover, .btn-outline-warning.d-flex:focus {
+        background: #d9004c;
+        color: #fff !important;
+    }
+
+    .btn-outline-primary.d-flex {
+        background: #007bff;
+        color: #fff !important;
+        border: none;
+    }
+    .btn-outline-primary.d-flex:hover, .btn-outline-primary.d-flex:focus {
+        background: #0056b3;
+        color: #fff !important;
+    }
 </style>
 
 <div class="game-header">
@@ -687,6 +707,20 @@
                             </a>
                         }
                     }
+                </div>
+            </div>
+            <!-- Achievements & Leaderboard Links -->
+            <div class="game-info-section">
+                <h2 class="section-title"><i class="fas fa-trophy me-2"></i>GAME EXTRAS</h2>
+                <div class="d-grid gap-2">
+                    <a href="@Url.Action("Index", "Achievement", new { gameId = Model.Id })" class="btn btn-outline-warning mb-2 d-flex align-items-center justify-content-center">
+                        <i class="fas fa-trophy me-1"></i>
+                        <span>Achievements</span>
+                    </a>
+                    <a href="@Url.Action("Index", "Leaderboard", new { gameId = Model.Id })" class="btn btn-outline-primary d-flex align-items-center justify-content-center">
+                        <i class="fas fa-list-ol me-1"></i>
+                        <span>Leaderboard</span>
+                    </a>
                 </div>
             </div>
         </div>

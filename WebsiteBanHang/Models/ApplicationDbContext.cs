@@ -26,10 +26,19 @@
         // New DbSets for enhanced features
         public DbSet<GameFollow> GameFollows { get; set; }
         public DbSet<GameNotification> GameNotifications { get; set; }
-        public DbSet<GameComparison> GameComparisons { get; set; }
-        public DbSet<GameComparisonItem> GameComparisonItems { get; set; }
-        public DbSet<ComparisonFeature> ComparisonFeatures { get; set; }
-        public DbSet<GameFeature> GameFeatures { get; set; }
+       
+
+        public DbSet<ForumCategory> ForumCategories { get; set; }
+        public DbSet<ForumPost> ForumPosts { get; set; }
+        public DbSet<ForumComment> ForumComments { get; set; }
+        public DbSet<ForumPostVote> ForumPostVotes { get; set; }
+        public DbSet<ForumCommentVote> ForumCommentVotes { get; set; }
+        public DbSet<ForumReport> ForumReports { get; set; }
+        public DbSet<ForumNotification> ForumNotifications { get; set; }
+
+        public DbSet<Achievement> Achievements { get; set; }
+        public DbSet<UserAchievement> UserAchievements { get; set; }
+        public DbSet<LeaderboardEntry> LeaderboardEntries { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -114,29 +123,13 @@
                 .HasForeignKey(gn => gn.GameId)
                 .OnDelete(DeleteBehavior.Cascade);
             
-            modelBuilder.Entity<GameComparison>()
-                .HasOne(gc => gc.User)
-                .WithMany()
-                .HasForeignKey(gc => gc.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+           
             
-            modelBuilder.Entity<GameComparisonItem>()
-                .HasOne(gci => gci.Comparison)
-                .WithMany(gc => gc.Games)
-                .HasForeignKey(gci => gci.ComparisonId)
-                .OnDelete(DeleteBehavior.Cascade);
             
-            modelBuilder.Entity<GameFeature>()
-                .HasOne(gf => gf.Game)
-                .WithMany()
-                .HasForeignKey(gf => gf.GameId)
-                .OnDelete(DeleteBehavior.Cascade);
             
-            modelBuilder.Entity<GameFeature>()
-                .HasOne(gf => gf.Feature)
-                .WithMany(f => f.GameFeatures)
-                .HasForeignKey(gf => gf.FeatureId)
-                .OnDelete(DeleteBehavior.Cascade);
+           
+            
+            
 
             // Seed data in correct order
             // 1. Seed GameCategories first (required by NewsPost)
@@ -150,6 +143,42 @@
             
             // 4. Seed GamePlatforms (requires both Games and Platforms)
             GamePlatformSeeder.SeedGamePlatforms(modelBuilder);
+
+            modelBuilder.Entity<ForumComment>()
+                .HasOne(fc => fc.ForumPost)
+                .WithMany(fp => fp.Comments)
+                .HasForeignKey(fc => fc.ForumPostId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ForumCommentVote>()
+                .HasOne(v => v.ForumComment)
+                .WithMany(c => c.Votes)
+                .HasForeignKey(v => v.ForumCommentId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ForumPostVote>()
+                .HasOne(v => v.ForumPost)
+                .WithMany(p => p.Votes)
+                .HasForeignKey(v => v.ForumPostId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ForumReport>()
+                .HasOne(r => r.ForumPost)
+                .WithMany()
+                .HasForeignKey(r => r.ForumPostId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ForumReport>()
+                .HasOne(r => r.ForumComment)
+                .WithMany()
+                .HasForeignKey(r => r.ForumCommentId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Achievement>()
+                .HasOne(a => a.Game)
+                .WithMany(g => g.Achievements)
+                .HasForeignKey(a => a.GameId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -82,6 +82,18 @@ namespace WebGame.Data
                         logger.LogError(ex, "Error seeding additional games");
                     }
                 }
+
+                // Seed Forum Categories
+                if (!context.ForumCategories.Any())
+                {
+                    context.ForumCategories.AddRange(
+                        new ForumCategory { Name = "Thảo luận chung", Description = "Nơi thảo luận mọi chủ đề về game" },
+                        new ForumCategory { Name = "Hỏi đáp", Description = "Hỏi đáp, giải đáp thắc mắc về game" },
+                        new ForumCategory { Name = "Chia sẻ kinh nghiệm", Description = "Chia sẻ kinh nghiệm chơi game, mẹo hay" },
+                        new ForumCategory { Name = "Tin tức game", Description = "Cập nhật tin tức mới nhất về game" }
+                    );
+                    context.SaveChanges();
+                }
             }
         }
 

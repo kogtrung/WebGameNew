@@ -99,6 +99,7 @@ namespace WebGame.Models
         public virtual ICollection<GamePlatform> GamePlatforms { get; set; } = new List<GamePlatform>();
         public virtual ICollection<GameFollow> Followers { get; set; } = new List<GameFollow>();
         public virtual ICollection<GameNotification> Notifications { get; set; } = new List<GameNotification>();
+        public virtual ICollection<Achievement> Achievements { get; set; } = new List<Achievement>();
     }
 
     public class GameFollow

@@ -89,6 +89,17 @@
             padding: 0;
             background-color: #f5f5f5; /* Hoặc nền bạn đang dùng */
         }
+
+        /* Dropdown on hover for navbar */
+        @@media (min-width: 768px) {
+            .navbar-nav .dropdown:hover .dropdown-menu {
+                display: block;
+                margin-top: 0;
+            }
+            .navbar-nav .dropdown-toggle::after {
+                display: none !important;
+            }
+        }
     </style>
     
     @await RenderSectionAsync("Styles", required: false)
@@ -106,19 +117,32 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarMain">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Game" && ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")" asp-controller="Game" asp-action="Index">Games</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle @(ViewContext.RouteData.Values["controller"]?.ToString() == "Game" ? "active" : "")" href="#" id="gamesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="caret-color: transparent;">
+                                Games
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="gamesDropdown">
+                                <li><a class="dropdown-item" asp-controller="Game" asp-action="Index">All Games</a></li>
+                                <li><a class="dropdown-item" asp-controller="Releases" asp-action="NewReleases">New Releases</a></li>
+                                <li><a class="dropdown-item" asp-controller="ComingSoon" asp-action="Index">Coming Soon</a></li>
+                                
+                            </ul>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "News" ? "active" : "")" asp-controller="News" asp-action="Index">News</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Releases" && ViewContext.RouteData.Values["action"]?.ToString() == "NewReleases" ? "active" : "")" asp-controller="Releases" asp-action="NewReleases">New Releases</a>
+                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Forum" ? "active" : "")" asp-controller="Forum" asp-action="Index">Forum</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "ComingSoon" ? "active" : "")" asp-controller="ComingSoon" asp-action="Index">Coming Soon</a>
-                        </li>
-
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "ForumNotification" ? "active" : "")" asp-controller="ForumNotification" asp-action="Index">
+                                    Notifications
+                                    <span class="badge bg-primary" id="notificationCount"></span>
+                                </a>
+                            </li>
+                        }
                         @* Add links for new features *@
                         @if (User?.Identity?.IsAuthenticated == true)
                         {

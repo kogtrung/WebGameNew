@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.IO;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
+using WebGame.Data;
 
 namespace WebGame.Controllers
 {
