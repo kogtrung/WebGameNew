@@ -1,0 +1,112 @@
+@model IEnumerable<WebGame.Models.ForumPost>
+@{
+    ViewData["Title"] = "Diễn đàn";
+    var categories = ViewBag.Categories as List<WebGame.Models.ForumCategory>;
+    int? selectedCategory = ViewBag.SelectedCategory as int?;
+}
+<style>
+.forum-list-container {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    padding: 24px;
+    margin-top: 24px;
+}
+.forum-post-row {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding: 18px 0;
+    transition: background 0.2s;
+}
+.forum-post-row:last-child { border-bottom: none; }
+.forum-post-row:hover { background: #f8f9fa; }
+.forum-avatar {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: #e0e0e0;
+    color: #555;
+    font-weight: bold;
+    font-size: 1.5rem;
+    display: flex; align-items: center; justify-content: center;
+    margin-right: 18px;
+}
+.forum-post-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 2px;
+    text-decoration: none;
+}
+.forum-post-title:hover { color: #ff4081; }
+.forum-meta {
+    font-size: 0.95rem;
+    color: #888;
+}
+.forum-badge {
+    background: #f5f5f5;
+    color: #666;
+    border-radius: 12px;
+    padding: 2px 10px;
+    font-size: 0.85rem;
+    margin-right: 8px;
+}
+.forum-count {
+    color: #ff4081;
+    font-weight: 600;
+    margin-left: 8px;
+}
+</style>
+<h2 class="mb-4">Diễn đàn</h2>
+<div class="mb-3">
+    <form method="get" class="d-flex align-items-center gap-2">
+        <select name="categoryId" onchange="this.form.submit()" class="form-select w-auto">
+            <option value="">Tất cả chủ đề</option>
+            @foreach (var cat in categories)
+            {
+                if (selectedCategory == cat.Id)
+                {
+                    <option value="@cat.Id" selected="selected">@cat.Name</option>
+                }
+                else
+                {
+                    <option value="@cat.Id">@cat.Name</option>
+                }
+            }
+        </select>
+        <a class="btn btn-primary ms-2" asp-action="Create">Đăng bài mới</a>
+    </form>
+</div>
+<div class="forum-list-container">
+    @if (!Model.Any())
+    {
+        <div class="text-center text-muted py-5">Chưa có bài viết nào.</div>
+    }
+    else
+    {
+        @foreach (var post in Model)
+        {
+            <div class="forum-post-row">
+                <div class="forum-avatar">
+                    @(string.IsNullOrEmpty(post.User?.UserName) ? "?" : post.User.UserName.Substring(0,1).ToUpper())
+                </div>
+                <div style="flex:1;">
+                    <div class="forum-post-title">@post.Title</div>
+                    <div class="forum-meta">
+                        <span class="forum-badge">@post.Category?.Name</span>
+                        bởi <b>@post.User?.UserName</b> • @post.CreatedAt.ToString("dd/MM/yyyy HH:mm")
+                        <span class="forum-count"><i class="fa fa-comments"></i> @(post.Comments?.Count ?? 0)</span>
+                    </div>
+                    <div class="mt-2" style="color:#333; font-size:1rem;">
+                        @Html.Raw(post.Content?.Length > 300 ? post.Content.Substring(0, 300) + "..." : post.Content)
+                    </div>
+                    <div class="mt-2">
+                        <a class="btn btn-outline-primary btn-sm" href="@Url.Action("Details", "Forum", new { id = post.Id })">
+                            Xem chi tiết/Bình luận
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div> 

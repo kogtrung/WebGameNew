@@ -3,3 +3,12 @@
 ################################################################################
 
 /.vs
+/bin/
+/obj/
+*.dll
+*.exe
+*.pdb
+*.cache
+/WebsiteBanHang/obj
+/WebsiteBanHang/bin
+WebsiteBanHang/appsettings.json

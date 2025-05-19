@@ -1,0 +1,146 @@
+@model WebGame.Models.ForumPost
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<WebGame.Models.ApplicationUser> UserManager
+@{
+    ViewData["Title"] = Model.Title;
+    var isAuthenticated = User.Identity.IsAuthenticated;
+}
+<style>
+    textarea.form-control { color: #000 !important; }
+</style>
+<h2>@Model.Title</h2>
+<p><b>Chủ đề:</b> @Model.Category?.Name | <b>Tác giả:</b> @Model.User?.UserName | <b>Ngày đăng:</b> @Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")
+@if (isAuthenticated)
+{
+    <button class="btn btn-link btn-sm text-danger" id="reportPostBtn">Báo cáo</button>
+}
+</p>
+@if (!string.IsNullOrEmpty(Model.ImageUrl))
+{
+    <div class="mb-3">
+        <img src="@Model.ImageUrl" alt="Ảnh bài viết" class="img-fluid rounded" style="max-height:350px;" />
+    </div>
+}
+<div class="mb-4">
+    @Html.Raw(Model.Content)
+</div>
+<hr />
+<h4>Bình luận</h4>
+@if (Model.Comments != null && Model.Comments.Any())
+{
+    <ul class="list-group mb-3">
+        @foreach (var c in Model.Comments.OrderBy(c => c.CreatedAt))
+        {
+            <li class="list-group-item">
+                <b>@c.User?.UserName</b> <span class="text-muted">@c.CreatedAt.ToString("dd/MM/yyyy HH:mm")</span>
+                @if (!string.IsNullOrEmpty(c.QuoteContent))
+                {
+                    <blockquote class="blockquote" style="background:#f8f9fa;padding:8px 12px;border-left:3px solid #007bff;margin:8px 0;">
+                        <small class="text-muted">@c.QuoteContent</small>
+                    </blockquote>
+                }
+                <div>@c.Content</div>
+                @if (isAuthenticated)
+                {
+                    <button type="button" class="btn btn-link btn-sm text-primary quote-btn" data-quote="@Html.Raw(Html.Encode(c.Content))" data-user="@c.User?.UserName">Quote</button>
+                    <button type="button" class="btn btn-link btn-sm text-danger report-comment-btn" data-comment-id="@c.Id">Báo cáo</button>
+                }
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>Chưa có bình luận nào.</p>
+}
+@if (isAuthenticated)
+{
+    <form asp-action="CreateComment" method="post" id="commentForm">
+        <input type="hidden" name="postId" value="@Model.Id" />
+        <input type="hidden" name="quoteContent" id="quoteContentInput" />
+        <div class="mb-2">
+            <textarea name="content" class="form-control" rows="3" required placeholder="Nhập bình luận..." id="commentTextarea"></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Gửi bình luận</button>
+    </form>
+    <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reportModalLabel">Báo cáo vi phạm</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="reportForm">
+                        <input type="hidden" id="reportTargetType" />
+                        <input type="hidden" id="reportTargetId" />
+                        <div class="mb-3">
+                            <label for="reportReason" class="form-label">Lý do báo cáo</label>
+                            <textarea class="form-control" id="reportReason" rows="3" required></textarea>
+                        </div>
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-danger">Gửi báo cáo</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.querySelectorAll('.quote-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var quote = btn.getAttribute('data-quote');
+                var user = btn.getAttribute('data-user');
+                var quoteText = user ? (user + ': ' + quote) : quote;
+                document.getElementById('quoteContentInput').value = quoteText;
+                document.getElementById('commentTextarea').focus();
+                document.getElementById('commentTextarea').value = '> ' + quoteText + '\n\n';
+            });
+        });
+        document.getElementById('reportPostBtn')?.addEventListener('click', function() {
+            showReportModal('post', '@Model.Id');
+        });
+        document.querySelectorAll('.report-comment-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var commentId = btn.getAttribute('data-comment-id');
+                showReportModal('comment', commentId);
+            });
+        });
+        function showReportModal(type, id) {
+            document.getElementById('reportTargetType').value = type;
+            document.getElementById('reportTargetId').value = id;
+            document.getElementById('reportReason').value = '';
+            var modal = new bootstrap.Modal(document.getElementById('reportModal'));
+            modal.show();
+        }
+        document.getElementById('reportForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var type = document.getElementById('reportTargetType').value;
+            var id = document.getElementById('reportTargetId').value;
+            var reason = document.getElementById('reportReason').value;
+            var url = type === 'post' ? '/Forum/ReportPost' : '/Forum/ReportComment';
+            var data = new FormData();
+            if (type === 'post') data.append('postId', id);
+            else data.append('commentId', id);
+            data.append('reason', reason);
+            fetch(url, {
+                method: 'POST',
+                body: data,
+                headers: {
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                }
+            })
+            .then(response => response.json())
+            .then(result => {
+                alert(result.message);
+                var modal = bootstrap.Modal.getInstance(document.getElementById('reportModal'));
+                modal.hide();
+            })
+            .catch(() => alert('Có lỗi xảy ra.'));
+        });
+    </script>
+}
+else
+{
+    <div class="alert alert-info">Bạn cần <a asp-area="Identity" asp-page="/Account/Login">đăng nhập</a> để bình luận.</div>
+} 

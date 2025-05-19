@@ -17,277 +17,305 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = WebGame
 build_property.RootNamespace = WebGame
-build_property.ProjectDir = C:\Workspace\Project Cơ sở\WebGameFinal\WebsiteBanHang\
+build_property.ProjectDir = D:\DA\WebGameNew\WebsiteBanHang\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Workspace\Project Cơ sở\WebGameFinal\WebsiteBanHang
+build_property.MSBuildProjectDirectory = D:\DA\WebGameNew\WebsiteBanHang
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Areas/Admin/Views/Game/Create.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Areas/Admin/Views/ForumReport/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcRm9ydW1SZXBvcnRcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DA/WebGameNew/WebsiteBanHang/Areas/Admin/Views/Game/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcR2FtZVxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Areas/Admin/Views/Game/Delete.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Areas/Admin/Views/Game/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcR2FtZVxEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Areas/Admin/Views/Game/Edit.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Areas/Admin/Views/Game/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcR2FtZVxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Areas/Admin/Views/Game/Index.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Areas/Admin/Views/Game/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcR2FtZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Areas/Admin/Views/Home/Index.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Areas/Admin/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Areas/Admin/Views/Home/News.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Areas/Admin/Views/Home/News.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcSG9tZVxOZXdzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Areas/Admin/Views/NewsPost/Add.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Areas/Admin/Views/NewsPost/Add.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcTmV3c1Bvc3RcQWRkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Areas/Admin/Views/NewsPost/Create.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Areas/Admin/Views/NewsPost/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcTmV3c1Bvc3RcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Areas/Admin/Views/NewsPost/Delete.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Areas/Admin/Views/NewsPost/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcTmV3c1Bvc3RcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Areas/Admin/Views/NewsPost/Edit.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Areas/Admin/Views/NewsPost/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcTmV3c1Bvc3RcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Areas/Admin/Views/NewsPost/Index.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Areas/Admin/Views/NewsPost/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcTmV3c1Bvc3RcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Areas/Admin/Views/NewsPost/Update.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Areas/Admin/Views/NewsPost/Update.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcTmV3c1Bvc3RcVXBkYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Areas/Admin/Views/Order/ManageOrders.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Areas/Admin/Views/Order/ManageOrders.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcT3JkZXJcTWFuYWdlT3JkZXJzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Areas/Admin/Views/Shared/Error.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Areas/Admin/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Areas/Admin/Views/Shared/_LoginPartial.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Areas/Admin/Views/Shared/_LoginPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Areas/Admin/Views/Shared/_ValidationScriptsPartial.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Areas/Admin/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Areas/Admin/Views/_ViewImports.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Areas/Admin/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Areas/Admin/Views/_ViewStart.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Areas/Admin/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Areas/Identity/Pages/Account/Login.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Areas/Identity/Pages/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Areas/Identity/Pages/Account/Logout.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Areas/Identity/Pages/Account/Logout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Areas/Identity/Pages/Account/Register.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Areas/Identity/Pages/Account/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Areas/Identity/Pages/Account/_ViewImports.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Areas/Identity/Pages/Account/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxfVmlld0ltcG9ydHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Areas/Identity/Pages/_ValidationScriptsPartial.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Areas/Identity/Pages/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZhbGlkYXRpb25TY3JpcHRzUGFydGlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Areas/Identity/Pages/_ViewImports.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Areas/Identity/Pages/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Areas/Identity/Pages/_ViewStart.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Areas/Identity/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/ComingSoon/Index.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/Achievement/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNoaWV2ZW1lbnRcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DA/WebGameNew/WebsiteBanHang/Views/Achievement/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNoaWV2ZW1lbnRcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DA/WebGameNew/WebsiteBanHang/Views/Achievement/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNoaWV2ZW1lbnRcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DA/WebGameNew/WebsiteBanHang/Views/ComingSoon/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29taW5nU29vblxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/Error.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/GameCategory/Add.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/ForumNotification/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9ydW1Ob3RpZmljYXRpb25cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DA/WebGameNew/WebsiteBanHang/Views/Forum/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9ydW1cQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DA/WebGameNew/WebsiteBanHang/Views/Forum/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9ydW1cRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DA/WebGameNew/WebsiteBanHang/Views/Forum/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9ydW1cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DA/WebGameNew/WebsiteBanHang/Views/GameCategory/Add.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2FtZUNhdGVnb3J5XEFkZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/GameCategory/Delete.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/GameCategory/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2FtZUNhdGVnb3J5XERlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/GameCategory/Index.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/GameCategory/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2FtZUNhdGVnb3J5XEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/GameComparison/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2FtZUNvbXBhcmlzb25cQ3JlYXRlLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/GameComparison/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2FtZUNvbXBhcmlzb25cRGV0YWlscy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/GameComparison/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2FtZUNvbXBhcmlzb25cSW5kZXguY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/GameFollow/Index.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/GameFollow/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2FtZUZvbGxvd1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/GameNotification/Index.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/GameNotification/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2FtZU5vdGlmaWNhdGlvblxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/Game/Create.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/Game/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2FtZVxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/Game/Details.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/Game/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2FtZVxEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/Game/Edit.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/Game/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2FtZVxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/Game/GameList.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/Game/GameList.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2FtZVxHYW1lTGlzdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/Game/Index.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/Game/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2FtZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/Game/SearchResults.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/Game/SearchResults.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2FtZVxTZWFyY2hSZXN1bHRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/Game/TopRated.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/Game/TopRated.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2FtZVxUb3BSYXRlZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/Home/BrowseGames.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/Home/BrowseGames.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxCcm93c2VHYW1lcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/Home/Games.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/Home/Games.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxHYW1lcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/Home/Index.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/Home/News.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/Home/News.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxOZXdzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/Home/Privacy.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/Home/Search.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/Home/Search.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTZWFyY2guY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/NewsPost/Add.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/Leaderboard/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVhZGVyYm9hcmRcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DA/WebGameNew/WebsiteBanHang/Views/Leaderboard/SubmitScore.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVhZGVyYm9hcmRcU3VibWl0U2NvcmUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DA/WebGameNew/WebsiteBanHang/Views/NewsPost/Add.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1Bvc3RcQWRkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/NewsPost/Delete.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/NewsPost/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1Bvc3RcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/NewsPost/Index.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/NewsPost/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1Bvc3RcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/NewsPost/Update.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/NewsPost/Update.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1Bvc3RcVXBkYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/News/Details.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/News/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1xEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/News/Display.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/News/Display.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1xEaXNwbGF5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/News/Index.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/News/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/Releases/NewReleases.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/Releases/NewReleases.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVsZWFzZXNcTmV3UmVsZWFzZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/Shared/Error.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/Shared/_FilterSidebar.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/Shared/_FilterSidebar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9GaWx0ZXJTaWRlYmFyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/Shared/_GameListItem.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/Shared/_GameListItem.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9HYW1lTGlzdEl0ZW0uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/Shared/_LoginPartial.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/Shared/_LoginPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/Shared/_PlatformDisplay.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/Shared/_PlatformDisplay.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9QbGF0Zm9ybURpc3BsYXkuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/Shared/_ValidationScriptsPartial.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/_ViewImports.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/_ViewStart.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Areas/Admin/Views/Shared/_Layout.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Areas/Admin/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-fxyv4lb7da
 
-[C:/Workspace/Project Cơ sở/WebGameFinal/WebsiteBanHang/Views/Shared/_Layout.cshtml]
+[D:/DA/WebGameNew/WebsiteBanHang/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-f2gjdy1imc
