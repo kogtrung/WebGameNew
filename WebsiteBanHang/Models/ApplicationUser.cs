@@ -10,5 +10,9 @@ namespace WebGame.Models
         public string? FullName { get; set; }
         public string? Address { get; set; }
         public string? Age { get; set; }
+        [Required]
+        public int? YearOfBirth { get; set; } = 0;
+        [Required]
+        public override string? PhoneNumber { get; set; }
     }
 }

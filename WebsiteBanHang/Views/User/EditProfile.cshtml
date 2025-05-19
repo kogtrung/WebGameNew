@@ -1,0 +1,48 @@
+@model WebGame.Models.ApplicationUser
+@{
+    ViewData["Title"] = "Chỉnh sửa thông tin cá nhân";
+}
+<div class="container py-5 d-flex justify-content-center align-items-center" style="min-height:60vh;">
+    <div class="card shadow-lg" style="max-width: 500px; width: 100%;">
+        <div class="card-header bg-dark text-white text-center">
+            <i class="fas fa-user-edit fa-2x mb-2"></i>
+            <h3 class="mb-0">Chỉnh sửa thông tin cá nhân</h3>
+        </div>
+        <div class="card-body">
+            <form asp-action="EditProfile" method="post">
+                <div class="mb-3">
+                    <label asp-for="FullName" class="form-label fw-bold"><i class="fas fa-signature me-1"></i>Họ tên</label>
+                    <input asp-for="FullName" class="form-control text-dark" placeholder="Nhập họ tên" />
+                    <span asp-validation-for="FullName" class="text-danger small"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="YearOfBirth" class="form-label fw-bold"><i class="fas fa-calendar-alt me-1"></i>Năm sinh</label>
+                    <input asp-for="YearOfBirth" class="form-control text-dark" type="number" placeholder="VD: 1999" />
+                    <span asp-validation-for="YearOfBirth" class="text-danger small"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="PhoneNumber" class="form-label fw-bold"><i class="fas fa-phone me-1"></i>Số điện thoại</label>
+                    <input asp-for="PhoneNumber" class="form-control text-dark" placeholder="Nhập số điện thoại" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Address" class="form-label fw-bold"><i class="fas fa-map-marker-alt me-1"></i>Địa chỉ</label>
+                    <input asp-for="Address" class="form-control text-dark" placeholder="Nhập địa chỉ" />
+                    <span asp-validation-for="Address" class="text-danger small"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Age" class="form-label fw-bold"><i class="fas fa-user-clock me-1"></i>Tuổi</label>
+                    <input asp-for="Age" class="form-control text-dark" placeholder="Nhập tuổi" />
+                    <span asp-validation-for="Age" class="text-danger small"></span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-warning px-4"><i class="fas fa-save me-1"></i>Lưu thay đổi</button>
+                    <a class="btn btn-outline-secondary px-4" href="@Url.Action("Profile", "User")"><i class="fas fa-times me-1"></i>Hủy</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

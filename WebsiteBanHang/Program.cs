@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using WebGame.Data;
 using WebGame.Services;
 using WebGame.Controllers;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -135,10 +136,12 @@ builder.Services.AddRazorPages();
 builder.Services.AddDistributedMemoryCache(); // Cần thiết để lưu trữ session
 builder.Services.AddSession(options =>
 {
+
     options.IdleTimeout = TimeSpan.FromMinutes(20); // Reduced from 30 to 20 minutes for better resource usage
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
     options.Cookie.SameSite = SameSiteMode.Strict; // Enhance security
+
 });
 
 builder.Services.AddTransient<IGameImageService, GameImageService>();
@@ -151,6 +154,38 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LogoutPath = "/Identity/Account/Logout";
     options.AccessDeniedPath = "/Identity/Account/AccessDenied";
 });
+
+// Thêm xác thực Google OAuth
+builder.Services.AddAuthentication()
+    .AddGoogle(googleOptions =>
+    {
+        googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"] ?? "";
+        googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"] ?? "";
+        googleOptions.CallbackPath = "/signin-google";
+        googleOptions.SaveTokens = true;
+        googleOptions.Events.OnCreatingTicket = async context =>
+        {
+            var userManager = context.HttpContext.RequestServices.GetRequiredService<UserManager<WebGame.Models.ApplicationUser>>();
+            var signInManager = context.HttpContext.RequestServices.GetRequiredService<SignInManager<WebGame.Models.ApplicationUser>>();
+            var email = context.Principal.FindFirstValue(System.Security.Claims.ClaimTypes.Email);
+            var name = context.Principal.FindFirstValue(System.Security.Claims.ClaimTypes.Name);
+            var user = await userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                user = new WebGame.Models.ApplicationUser
+                {
+                    UserName = email,
+                    Email = email,
+                    FullName = name,
+                    EmailConfirmed = true,
+                    PhoneNumber = "",
+                    YearOfBirth = 2000
+                };
+                await userManager.CreateAsync(user);
+            }
+            await signInManager.SignInAsync(user, isPersistent: false);
+        };
+    });
 
 // Tăng cường logging trong Development
 if (builder.Environment.IsDevelopment())
@@ -305,10 +340,10 @@ app.UseOutputCache();
 app.UseRouting();
 
 // Add these lines for Identity
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.UseSession();
+app.UseAuthentication();
+app.UseAuthorization();
 
 // Configure endpoints
 app.MapControllerRoute(

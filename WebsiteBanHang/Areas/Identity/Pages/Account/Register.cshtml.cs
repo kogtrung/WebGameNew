@@ -102,7 +102,9 @@ namespace WebGame.Areas.Identity.Pages.Account
                 {
                     UserName = Input.Email,
                     Email = Input.Email,
-                    FullName = Input.FullName
+                    FullName = Input.FullName,
+                    PhoneNumber = "",
+                    YearOfBirth = 2000
                 };
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
