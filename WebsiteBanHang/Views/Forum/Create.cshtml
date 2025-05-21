@@ -18,6 +18,7 @@
 }
 <h2>Đăng bài mới</h2>
 <form asp-action="Create" method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
     <div class="mb-3">
         <label class="form-label">Chủ đề</label>
         <select name="CategoryId" class="form-select" required>

@@ -165,6 +165,24 @@ namespace WebGame.Areas.Admin.Controllers
                     var result = await _context.SaveChangesAsync();
                     Console.WriteLine($"SaveChanges result: {result}, Game saved with ID: {game.Id}");
 
+                    // Gửi thông báo cho tất cả user về game mới
+                    var allUsers = _context.Users.ToList();
+                    foreach (var user in allUsers)
+                    {
+                        _context.GameNotifications.Add(new GameNotification
+                        {
+                            GameId = game.Id,
+                            UserId = user.Id,
+                            Title = $"[Game] Game mới vừa được thêm!",
+                            Message = $"Game mới: {game.Title} vừa được thêm vào hệ thống! Hãy là người đầu tiên khám phá.",
+                            CreatedAt = DateTime.Now,
+                            IsRead = false,
+                            Type = NotificationType.Update
+                        });
+                    }
+                    await _context.SaveChangesAsync();
+                    // --- END gửi thông báo ---
+
                     // Xử lý mối quan hệ nhiều-nhiều với Platform
                     if (SelectedPlatforms != null && SelectedPlatforms.Any())
                     {

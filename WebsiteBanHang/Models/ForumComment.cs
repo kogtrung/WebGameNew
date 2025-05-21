@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebGame.Models
 {
@@ -15,4 +17,5 @@ namespace WebGame.Models
         public ICollection<ForumCommentVote> Votes { get; set; }
         public string? QuoteContent { get; set; }
     }
-} 
+
+}
