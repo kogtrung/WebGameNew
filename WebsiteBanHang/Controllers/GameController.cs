@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.IO;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
+using WebGame.Data;
 
 namespace WebGame.Controllers
 {
@@ -679,6 +680,118 @@ namespace WebGame.Controllers
                 .Where(g => g.Title.Contains(query) || g.Genre.Contains(query))
                 .ToListAsync();
             return View("SearchResults", games);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> TopRated(int page = 1, string platform = null, string genre = null, int? year = null)
+        {
+            int pageSize = 12;
+            var query = _context.Games.AsQueryable();
+
+            // Lọc theo MetaScore >= 90
+            query = query.Where(g => g.MetaScore >= 90);
+
+            // Lọc theo platform nếu có
+            if (!string.IsNullOrEmpty(platform))
+            {
+                var gameIdsWithPlatform = _context.GamePlatforms
+                    .Include(gp => gp.Platform)
+                    .Where(gp => gp.Platform.Name.Contains(platform))
+                    .Select(gp => gp.GameId)
+                    .Distinct()
+                    .ToList();
+                query = query.Where(g => gameIdsWithPlatform.Contains(g.Id));
+            }
+
+            // Lọc theo genre nếu có
+            if (!string.IsNullOrEmpty(genre))
+            {
+                query = query.Where(g => g.Genre.Contains(genre));
+            }
+
+            // Lọc theo năm nếu có
+            if (year.HasValue)
+            {
+                query = query.Where(g => g.ReleaseDate.HasValue && g.ReleaseDate.Value.Year == year.Value);
+            }
+
+            // Sắp xếp theo MetaScore giảm dần
+            query = query.OrderByDescending(g => g.MetaScore);
+
+            // Phân trang
+            var totalItems = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            page = Math.Max(1, Math.Min(page, Math.Max(1, totalPages)));
+            var games = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Include(g => g.GamePlatforms)
+                .ThenInclude(gp => gp.Platform)
+                .ToListAsync();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.CurrentPlatform = platform;
+            ViewBag.CurrentGenre = genre;
+            ViewBag.CurrentYear = year;
+
+            return View(games);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> NewReleases(int page = 1, string platform = null, string genre = null, int? year = null)
+        {
+            int pageSize = 12;
+            var query = _context.Games.AsQueryable();
+
+            // Lọc các game đã phát hành
+            query = query.Where(g => g.ReleaseDate.HasValue && g.ReleaseDate.Value <= DateTime.Now);
+
+            // Lọc theo platform nếu có
+            if (!string.IsNullOrEmpty(platform))
+            {
+                var gameIdsWithPlatform = _context.GamePlatforms
+                    .Include(gp => gp.Platform)
+                    .Where(gp => gp.Platform.Name.Contains(platform))
+                    .Select(gp => gp.GameId)
+                    .Distinct()
+                    .ToList();
+                query = query.Where(g => gameIdsWithPlatform.Contains(g.Id));
+            }
+
+            // Lọc theo genre nếu có
+            if (!string.IsNullOrEmpty(genre))
+            {
+                query = query.Where(g => g.Genre.Contains(genre));
+            }
+
+            // Lọc theo năm nếu có
+            if (year.HasValue)
+            {
+                query = query.Where(g => g.ReleaseDate.HasValue && g.ReleaseDate.Value.Year == year.Value);
+            }
+
+            // Sắp xếp theo ngày phát hành mới nhất
+            query = query.OrderByDescending(g => g.ReleaseDate);
+
+            // Phân trang
+            var totalItems = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            page = Math.Max(1, Math.Min(page, Math.Max(1, totalPages)));
+            var games = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Include(g => g.GamePlatforms)
+                .ThenInclude(gp => gp.Platform)
+                .ToListAsync();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.CurrentPlatform = platform;
+            ViewBag.CurrentGenre = genre;
+            ViewBag.CurrentYear = year;
+
+            return View(games);
         }
     }
 } 

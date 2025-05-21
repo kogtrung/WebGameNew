@@ -1,0 +1,58 @@
+@model IEnumerable<WebGame.Models.ForumNotification>
+@{
+    ViewData["Title"] = "Thông báo diễn đàn";
+}
+
+<div class="container mt-4">
+    <h2>Thông báo diễn đàn</h2>
+
+    <div class="mb-3">
+        <button id="markAllAsRead" class="btn btn-secondary">Đánh dấu tất cả đã đọc</button>
+    </div>
+
+    <div class="list-group">
+        @foreach (var notification in Model)
+        {
+            <div class="list-group-item list-group-item-action @(!notification.IsRead ? "list-group-item-primary" : "")">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">@notification.Message</h5>
+                    <small>@notification.CreatedAt.ToString("dd/MM/yyyy HH:mm")</small>
+                </div>
+                @if (!notification.IsRead)
+                {
+                    <button class="btn btn-sm btn-outline-primary mark-as-read" data-id="@notification.Id">Đánh dấu đã đọc</button>
+                }
+                @if (notification.ForumPostId.HasValue)
+                {
+                    <a href="@Url.Action("Details", "Forum", new { id = notification.ForumPostId })" class="btn btn-sm btn-link">Xem bài viết</a>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.mark-as-read').click(function () {
+                var button = $(this);
+                var id = button.data('id');
+                $.post('@Url.Action("MarkAsRead")', { id: id }, function (response) {
+                    if (response.success) {
+                        button.closest('.list-group-item').removeClass('list-group-item-primary');
+                        button.remove();
+                    }
+                });
+            });
+
+            $('#markAllAsRead').click(function () {
+                $.post('@Url.Action("MarkAllAsRead")', function (response) {
+                    if (response.success) {
+                        $('.list-group-item').removeClass('list-group-item-primary');
+                        $('.mark-as-read').remove();
+                    }
+                });
+            });
+        });
+    </script>
+} 

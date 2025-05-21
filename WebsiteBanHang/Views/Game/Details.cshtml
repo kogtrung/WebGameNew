@@ -243,6 +243,26 @@
             -webkit-text-fill-color: #333 !important;
             -webkit-box-shadow: 0 0 0px 1000px #fff inset;
         }
+
+    .btn-outline-warning.d-flex {
+        background: #ff0057;
+        color: #fff !important;
+        border: none;
+    }
+    .btn-outline-warning.d-flex:hover, .btn-outline-warning.d-flex:focus {
+        background: #d9004c;
+        color: #fff !important;
+    }
+
+    .btn-outline-primary.d-flex {
+        background: #007bff;
+        color: #fff !important;
+        border: none;
+    }
+    .btn-outline-primary.d-flex:hover, .btn-outline-primary.d-flex:focus {
+        background: #0056b3;
+        color: #fff !important;
+    }
 </style>
 
 <div class="game-header">
@@ -281,6 +301,9 @@
                         @if ((bool)ViewBag.IsFollowing)
                         {
                             <button id="unfollowButton" class="btn btn-outline-secondary" data-game-id="@Model.Id">Đang theo dõi</button>
+                            <div class="alert alert-info mt-2" id="followInfo">
+                                <i class="fas fa-bell"></i> Khi có cập nhật mới, bạn sẽ nhận được thông báo tại <a href="/Notifications" class="alert-link">Notifications</a>.
+                            </div>
                         }
                         else
                         {
@@ -688,6 +711,20 @@
                     }
                 </div>
             </div>
+            <!-- Achievements & Leaderboard Links -->
+            <div class="game-info-section">
+                <h2 class="section-title"><i class="fas fa-trophy me-2"></i>GAME EXTRAS</h2>
+                <div class="d-grid gap-2">
+                    <a href="@Url.Action("Index", "Achievement", new { gameId = Model.Id })" class="btn btn-outline-warning mb-2 d-flex align-items-center justify-content-center">
+                        <i class="fas fa-trophy me-1"></i>
+                        <span>Achievements</span>
+                    </a>
+                    <a href="@Url.Action("Index", "Leaderboard", new { gameId = Model.Id })" class="btn btn-outline-primary d-flex align-items-center justify-content-center">
+                        <i class="fas fa-list-ol me-1"></i>
+                        <span>Leaderboard</span>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -725,44 +762,61 @@
             });
         }
 
-        // Script for Follow/Unfollow button
-        document.getElementById('followButton')?.addEventListener('click', async (event) => {
-            const gameId = event.target.dataset.gameId;
-            await handleFollowAction('Follow', gameId);
-        });
-
-        document.getElementById('unfollowButton')?.addEventListener('click', async (event) => {
-            const gameId = event.target.dataset.gameId;
-             if (confirm('Bạn có chắc chắn muốn bỏ theo dõi game này?')) {
-                 await handleFollowAction('Unfollow', gameId);
-             }
-        });
-
-        async function handleFollowAction(action, gameId) {
-            const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
-            const url = `/GameFollow/${action}/${gameId}`;
-
-            try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'RequestVerificationToken': token,
-                        'Content-Type': 'application/json' // Explicitly set Content-Type
-                    },
-                    body: JSON.stringify({}) // Send an empty body for POST
-                });
-
-                const result = await response.json();
-
-                if (result.success) {
-                    window.location.reload(); // Simple reload for now
-                } else {
-                    // alert(result.message); // Giữ lại nếu muốn báo lỗi, còn không thì xóa dòng này
+        function updateFollowButton(isFollowing) {
+            const followBtn = document.getElementById('followButton');
+            const unfollowBtn = document.getElementById('unfollowButton');
+            const followInfo = document.getElementById('followInfo');
+            if (isFollowing) {
+                if (followBtn) followBtn.outerHTML = `<button id='unfollowButton' class='btn btn-outline-secondary' data-game-id='@Model.Id'>Đang theo dõi</button>`;
+                if (!document.getElementById('followInfo')) {
+                    const infoDiv = document.createElement('div');
+                    infoDiv.className = 'alert alert-info mt-2';
+                    infoDiv.id = 'followInfo';
+                    infoDiv.innerHTML = `<i class='fas fa-bell'></i> Khi có cập nhật mới, bạn sẽ nhận được thông báo tại <a href='/Notifications' class='alert-link'>Notifications</a>.`;
+                    (document.getElementById('unfollowButton') || document.getElementById('followButton')).after(infoDiv);
                 }
-            } catch (error) {
-                console.error('Error:', error);
-                // alert('Đã xảy ra lỗi.');
+            } else {
+                if (unfollowBtn) {
+                    unfollowBtn.outerHTML = `<button id='followButton' class='btn btn-primary' data-game-id='@Model.Id'>Theo dõi</button>`;
+                }
+                if (followInfo) followInfo.remove();
             }
         }
+        document.addEventListener('click', async function(e) {
+            if (e.target && e.target.id === 'followButton') {
+                e.preventDefault();
+                const gameId = e.target.getAttribute('data-game-id');
+                const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+                const res = await fetch('/GameFollow/Follow/' + gameId, {
+                    method: 'POST',
+                    headers: {
+                        'RequestVerificationToken': token
+                    }
+                });
+                const data = await res.json();
+                if (data.success) {
+                    updateFollowButton(true);
+                } else {
+                    alert(data.message || 'Có lỗi xảy ra.');
+                }
+            }
+            if (e.target && e.target.id === 'unfollowButton') {
+                e.preventDefault();
+                const gameId = e.target.getAttribute('data-game-id');
+                const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+                const res = await fetch('/GameFollow/Unfollow/' + gameId, {
+                    method: 'POST',
+                    headers: {
+                        'RequestVerificationToken': token
+                    }
+                });
+                const data = await res.json();
+                if (data.success) {
+                    updateFollowButton(false);
+                } else {
+                    alert(data.message || 'Có lỗi xảy ra.');
+                }
+            }
+        });
     </script>
 }

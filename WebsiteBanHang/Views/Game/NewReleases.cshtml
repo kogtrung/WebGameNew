@@ -1,0 +1,242 @@
+@model List<WebGame.Models.Game>
+@{
+    ViewData["Title"] = "New Releases";
+    var currentPage = ViewBag.CurrentPage ?? 1;
+    var totalPages = ViewBag.TotalPages ?? 1;
+}
+
+<div class="main-content">
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="hero-background"></div>
+        <div class="container position-relative">
+            <div class="hero-text text-left">
+                <h1 class="section-title">NEW RELEASES</h1>
+                <div class="accent-line"></div>
+                <p class="section-subtitle">Latest released games, sorted by release date</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-lg-12">
+                @if (!Model.Any())
+                {
+                    <div class="alert alert-info">No new releases found.</div>
+                }
+                else
+                {
+                    <div class="row g-4">
+                        @foreach (var game in Model)
+                        {
+                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                <div class="game-card h-100">
+                                    <a href="@Url.Action("Details", new { id = game.Id })" class="game-card-link">
+                                        <div class="game-image-container">
+                                            <img src="@game.ImageUrl"
+                                                 alt="@game.Title"
+                                                 class="game-image"
+                                                 onerror="this.onerror=null; this.src='/images/game-placeholder.jpg';">
+                                            <div class="metascore @(game.MetaScore >= 90 ? "positive" : (game.MetaScore >= 75 ? "mixed" : "negative"))">
+                                                @game.MetaScore
+                                            </div>
+                                        </div>
+                                        <div class="game-info">
+                                            <h3 class="game-title">@game.Title</h3>
+                                            <div class="game-meta">
+                                                <div class="platform">
+                                                    @if (game.GamePlatforms != null && game.GamePlatforms.Any())
+                                                    {
+                                                        @string.Join(", ", game.GamePlatforms.Select(gp => gp.Platform?.Name))
+                                                    }
+                                                    else
+                                                    {
+                                                        @game.Platform
+                                                    }
+                                                </div>
+                                                <div class="release-date">@game.ReleaseDate?.ToString("MMMM d, yyyy")</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+
+                <!-- Pagination -->
+                @if (totalPages > 1)
+                {
+                    <div class="d-flex justify-content-center mt-4">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                @if (currentPage > 1)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="@Url.Action("NewReleases", new { page = currentPage - 1 })" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                }
+                                @for (int i = 1; i <= totalPages; i++)
+                                {
+                                    <li class="page-item @(i == currentPage ? "active" : "")">
+                                        <a class="page-link" href="@Url.Action("NewReleases", new { page = i })">@i</a>
+                                    </li>
+                                }
+                                @if (currentPage < totalPages)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="@Url.Action("NewReleases", new { page = currentPage + 1 })" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </nav>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .main-content {
+            background-color: #ffffff;
+            min-height: 100vh;
+            padding-bottom: 2rem;
+            font-family: 'Arial', sans-serif;
+        }
+        .hero-section {
+            position: relative;
+            padding: 6rem 0;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            background-color: #111;
+        }
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('https://cdn.wallpapersafari.com/14/81/2rVbjv.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.2;
+            filter: blur(3px);
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 40%, rgba(0, 0, 0, 0.5) 100%);
+        }
+        .hero-text {
+            position: relative;
+            z-index: 2;
+            color: #fff;
+            text-align: left;
+            max-width: 600px;
+            margin-left: 2rem;
+        }
+        .section-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #eee;
+        }
+        .accent-line {
+            height: 4px;
+            width: 80px;
+            background-color: #ff9900;
+            margin-bottom: 1.5rem;
+        }
+        .section-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin: 0;
+            font-weight: 300;
+        }
+        .game-card {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: #fff;
+        }
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        .game-card-link {
+            text-decoration: none;
+            color: inherit;
+        }
+        .game-image-container {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            background: #f5f5f5;
+        }
+        .game-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .metascore {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #222;
+            color: #fff;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: 3px solid #fff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+        .metascore.positive { background: #6c3; }
+        .metascore.mixed { background: #fc3; }
+        .metascore.negative { background: #e44; }
+        .game-info {
+            padding: 1rem 1rem 0.5rem 1rem;
+        }
+        .game-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #222;
+        }
+        .game-meta {
+            font-size: 0.95rem;
+            color: #666;
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+        .platform {
+            font-size: 0.95rem;
+            color: #888;
+        }
+        .release-date {
+            font-size: 0.95rem;
+            color: #888;
+        }
+    </style>
+} 

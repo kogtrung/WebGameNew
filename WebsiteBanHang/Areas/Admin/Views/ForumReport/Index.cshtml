@@ -1,0 +1,82 @@
+@model IEnumerable<WebGame.Models.ForumReport>
+@{
+    ViewData["Title"] = "Quản lý báo cáo vi phạm";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<h2>Quản lý báo cáo vi phạm</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Thời gian</th>
+            <th>Người báo cáo</th>
+            <th>Loại</th>
+            <th>Nội dung</th>
+            <th>Lý do</th>
+            <th>Trạng thái</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var r in Model)
+        {
+            <tr>
+                <td>@r.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@r.User?.UserName</td>
+                <td>
+                    @if (r.ForumPostId != null)
+                    {
+                        <span class="badge bg-primary">Bài viết</span>
+                    }
+                    else if (r.ForumCommentId != null)
+                    {
+                        <span class="badge bg-secondary">Bình luận</span>
+                    }
+                </td>
+                <td>
+                    @if (r.ForumPost != null)
+                    {
+                        <div><b>Bài viết:</b> @r.ForumPost.Title</div>
+                    }
+                    else if (r.ForumComment != null)
+                    {
+                        <div><b>Bình luận:</b> @r.ForumComment.Content</div>
+                    }
+                </td>
+                <td>@r.Reason</td>
+                <td>
+                    @if (r.IsResolved)
+                    {
+                        <span class="badge bg-success">Đã xử lý</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-warning">Chưa xử lý</span>
+                    }
+                </td>
+                <td>
+                    @if (!r.IsResolved)
+                    {
+                        <form asp-action="Resolve" method="post" style="display:inline">
+                            <input type="hidden" name="id" value="@r.Id" />
+                            <button type="submit" class="btn btn-sm btn-success">Đánh dấu đã xử lý</button>
+                        </form>
+                        @if (r.ForumPostId != null)
+                        {
+                            <form asp-action="DeletePost" method="post" style="display:inline" onsubmit="return confirm('Xóa bài viết này?');">
+                                <input type="hidden" name="postId" value="@r.ForumPostId" />
+                                <button type="submit" class="btn btn-sm btn-danger">Xóa bài viết</button>
+                            </form>
+                        }
+                        else if (r.ForumCommentId != null)
+                        {
+                            <form asp-action="DeleteComment" method="post" style="display:inline" onsubmit="return confirm('Xóa bình luận này?');">
+                                <input type="hidden" name="commentId" value="@r.ForumCommentId" />
+                                <button type="submit" class="btn btn-sm btn-danger">Xóa bình luận</button>
+                            </form>
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table> 

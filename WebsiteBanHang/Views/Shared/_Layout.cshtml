@@ -89,11 +89,25 @@
             padding: 0;
             background-color: #f5f5f5; /* Hoặc nền bạn đang dùng */
         }
+
+        /* Dropdown on hover for navbar */
+        @@media (min-width: 768px) {
+            .navbar-nav .dropdown:hover .dropdown-menu {
+                display: block;
+                margin-top: 0;
+            }
+            .navbar-nav .dropdown-toggle::after {
+                display: none !important;
+            }
+        }
     </style>
     
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body class="d-flex flex-column min-vh-100">
+    <form id="antiForgeryForm" style="display:none;">
+        @Html.AntiForgeryToken()
+    </form>
     <header>
         <nav class="navbar navbar-expand-md navbar-dark bg-dark" aria-label="Main navigation">
             <div class="container">
@@ -106,29 +120,32 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarMain">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Game" && ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")" asp-controller="Game" asp-action="Index">Games</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle @(ViewContext.RouteData.Values["controller"]?.ToString() == "Game" ? "active" : "")" href="#" id="gamesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="caret-color: transparent;">
+                                Games
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="gamesDropdown">
+                                <li><a class="dropdown-item" asp-controller="Game" asp-action="Index">All Games</a></li>
+                                <li><a class="dropdown-item" asp-controller="Releases" asp-action="NewReleases">New Releases</a></li>
+                                <li><a class="dropdown-item" asp-controller="ComingSoon" asp-action="Index">Coming Soon</a></li>
+                            </ul>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "News" ? "active" : "")" asp-controller="News" asp-action="Index">News</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Releases" && ViewContext.RouteData.Values["action"]?.ToString() == "NewReleases" ? "active" : "")" asp-controller="Releases" asp-action="NewReleases">New Releases</a>
+                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Forum" ? "active" : "")" asp-controller="Forum" asp-action="Index">Forum</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "ComingSoon" ? "active" : "")" asp-controller="ComingSoon" asp-action="Index">Coming Soon</a>
+                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Notifications" ? "active" : "")" asp-controller="Notifications" asp-action="Index">
+                                Notifications
+                            </a>
                         </li>
-
-                        @* Add links for new features *@
                         @if (User?.Identity?.IsAuthenticated == true)
                         {
                             <li class="nav-item">
                                 <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "GameFollow" ? "active" : "")" asp-controller="GameFollow" asp-action="Index">Followed Games</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "GameNotification" ? "active" : "")" asp-controller="GameNotification" asp-action="Index">Notifications</a>
-                            </li>
-                            @* Add Game Comparison link here (maybe in a dropdown)*@
                         }
                     </ul>
                     
@@ -155,11 +172,7 @@
                                         <li><hr class="dropdown-divider"></li>
                                     }
                                     <li><a class="dropdown-item" asp-controller="User" asp-action="Profile">Thông tin cá nhân</a></li>
-                                    <li>
-                                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                                            <button type="submit" class="dropdown-item">Logout</button>
-                                        </form>
-                                    </li>
+                                    <li><a class="dropdown-item" href="#" onclick="logoutUser(event)">Logout</a></li>
                                 </ul>
                             </li>
                         }
@@ -243,6 +256,26 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    
+    <script>
+        function logoutUser(e) {
+            e.preventDefault();
+            var form = document.createElement('form');
+            form.method = 'post';
+            form.action = '/Identity/Account/Logout?returnUrl=/';
+            // Lấy token từ form ẩn
+            var token = document.querySelector('#antiForgeryForm input[name=__RequestVerificationToken]');
+            if (token) {
+                var hidden = document.createElement('input');
+                hidden.type = 'hidden';
+                hidden.name = '__RequestVerificationToken';
+                hidden.value = token.value;
+                form.appendChild(hidden);
+            }
+            document.body.appendChild(form);
+            form.submit();
+        }
+    </script>
     
     @await RenderSectionAsync("Scripts", required: false)
 </body>
