@@ -53,6 +53,10 @@ namespace WebGame.Models
 
         public int HelpfulCount { get; set; } = 0;
         public int UnhelpfulCount { get; set; } = 0;
+
+        public int? PlatformId { get; set; }
+        [ForeignKey("PlatformId")]
+        public Platform Platform { get; set; }
     }
 
     public enum ReviewType

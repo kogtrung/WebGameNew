@@ -12,8 +12,8 @@ using WebGame.Models;
 namespace WebGame.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250519044917_AddGameAchievementsNav")]
-    partial class AddGameAchievementsNav
+    [Migration("20250521153157_AddNewsComment")]
+    partial class AddNewsComment
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -158,41 +158,6 @@ namespace WebGame.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("WebGame.Models.Achievement", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
-                    b.Property<int>("GameId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("IconUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Points")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GameId");
-
-                    b.ToTable("Achievements");
-                });
-
             modelBuilder.Entity("WebGame.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -240,6 +205,7 @@ namespace WebGame.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
@@ -254,6 +220,10 @@ namespace WebGame.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<int?>("YearOfBirth")
+                        .IsRequired()
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -1673,7 +1643,7 @@ namespace WebGame.Migrations
                         });
                 });
 
-            modelBuilder.Entity("WebGame.Models.LeaderboardEntry", b =>
+            modelBuilder.Entity("WebGame.Models.NewsComment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1681,19 +1651,14 @@ namespace WebGame.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("GameId")
-                        .HasColumnType("int");
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("LastUpdate")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PlayTime")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Rank")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Score")
+                    b.Property<int>("NewsPostId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -1702,11 +1667,11 @@ namespace WebGame.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GameId");
+                    b.HasIndex("NewsPostId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("LeaderboardEntries");
+                    b.ToTable("NewsComments");
                 });
 
             modelBuilder.Entity("WebGame.Models.NewsPost", b =>
@@ -1961,33 +1926,6 @@ namespace WebGame.Migrations
                     b.ToTable("Reviews");
                 });
 
-            modelBuilder.Entity("WebGame.Models.UserAchievement", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AchievementId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("UnlockedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AchievementId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserAchievements");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -2037,17 +1975,6 @@ namespace WebGame.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("WebGame.Models.Achievement", b =>
-                {
-                    b.HasOne("WebGame.Models.Game", "Game")
-                        .WithMany("Achievements")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Game");
                 });
 
             modelBuilder.Entity("WebGame.Models.ForumComment", b =>
@@ -2231,11 +2158,11 @@ namespace WebGame.Migrations
                     b.Navigation("Platform");
                 });
 
-            modelBuilder.Entity("WebGame.Models.LeaderboardEntry", b =>
+            modelBuilder.Entity("WebGame.Models.NewsComment", b =>
                 {
-                    b.HasOne("WebGame.Models.Game", "Game")
-                        .WithMany()
-                        .HasForeignKey("GameId")
+                    b.HasOne("WebGame.Models.NewsPost", "NewsPost")
+                        .WithMany("Comments")
+                        .HasForeignKey("NewsPostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -2245,7 +2172,7 @@ namespace WebGame.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Game");
+                    b.Navigation("NewsPost");
 
                     b.Navigation("User");
                 });
@@ -2283,25 +2210,6 @@ namespace WebGame.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WebGame.Models.UserAchievement", b =>
-                {
-                    b.HasOne("WebGame.Models.Achievement", "Achievement")
-                        .WithMany()
-                        .HasForeignKey("AchievementId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebGame.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Achievement");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("WebGame.Models.ForumCategory", b =>
                 {
                     b.Navigation("ForumPosts");
@@ -2321,8 +2229,6 @@ namespace WebGame.Migrations
 
             modelBuilder.Entity("WebGame.Models.Game", b =>
                 {
-                    b.Navigation("Achievements");
-
                     b.Navigation("Followers");
 
                     b.Navigation("GamePlatforms");
@@ -2335,6 +2241,11 @@ namespace WebGame.Migrations
             modelBuilder.Entity("WebGame.Models.GameCategory", b =>
                 {
                     b.Navigation("NewsPosts");
+                });
+
+            modelBuilder.Entity("WebGame.Models.NewsPost", b =>
+                {
+                    b.Navigation("Comments");
                 });
 
             modelBuilder.Entity("WebGame.Models.Platform", b =>

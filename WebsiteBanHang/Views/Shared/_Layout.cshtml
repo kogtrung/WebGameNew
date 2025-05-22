@@ -136,11 +136,6 @@
                         <li class="nav-item">
                             <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Forum" ? "active" : "")" asp-controller="Forum" asp-action="Index">Forum</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Notifications" ? "active" : "")" asp-controller="Notifications" asp-action="Index">
-                                Notifications
-                            </a>
-                        </li>
                         @if (User?.Identity?.IsAuthenticated == true)
                         {
                             <li class="nav-item">
@@ -171,6 +166,7 @@
                                         <li><a class="dropdown-item" asp-area="Admin" asp-controller="Home" asp-action="Index">Admin Dashboard</a></li>
                                         <li><hr class="dropdown-divider"></li>
                                     }
+                                    <li><a class="dropdown-item" asp-controller="Notifications" asp-action="Index">Thông báo</a></li>
                                     <li><a class="dropdown-item" asp-controller="User" asp-action="Profile">Thông tin cá nhân</a></li>
                                     <li><a class="dropdown-item" href="#" onclick="logoutUser(event)">Logout</a></li>
                                 </ul>
