@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using WebGame.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Diagnostics;
+using System.Linq;
 
 namespace WebGame.Controllers
 {
@@ -133,8 +134,25 @@ namespace WebGame.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            var post = await _context.NewsPosts.FindAsync(id);
+            var post = await _context.NewsPosts
+                .Include(n => n.GameCategory)
+                .Include(n => n.Comments)
+                .ThenInclude(c => c.User)
+                .FirstOrDefaultAsync(n => n.Id == id);
             if (post == null) return NotFound();
+
+            // Lấy các bài viết liên quan cùng category, loại trừ bài hiện tại
+            List<NewsPost> relatedPosts = new List<NewsPost>();
+            if (post.GameCategoryId.HasValue)
+            {
+                relatedPosts = await _context.NewsPosts
+                    .Where(n => n.GameCategoryId == post.GameCategoryId && n.Id != post.Id)
+                    .OrderByDescending(n => n.CreatedAt)
+                    .Take(5)
+                    .ToListAsync();
+            }
+            ViewBag.RelatedPosts = relatedPosts;
+            ViewBag.NewsComments = post.Comments.OrderByDescending(c => c.CreatedAt).ToList();
             return View(post);
         }
 
@@ -250,6 +268,31 @@ namespace WebGame.Controllers
         private bool NewsPostExists(int id)
         {
             return _context.NewsPosts.Any(e => e.Id == id);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddComment(int newsPostId, string content)
+        {
+            if (string.IsNullOrWhiteSpace(content))
+            {
+                return RedirectToAction("Details", new { id = newsPostId });
+            }
+            var userId = User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Details", new { id = newsPostId });
+            }
+            var comment = new NewsComment
+            {
+                NewsPostId = newsPostId,
+                Content = content,
+                UserId = userId,
+                CreatedAt = DateTime.Now
+            };
+            _context.NewsComments.Add(comment);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Details", new { id = newsPostId });
         }
     }
 }

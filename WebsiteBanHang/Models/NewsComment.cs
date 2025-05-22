@@ -4,17 +4,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebGame.Models
 {
-    public class UserAchievement
+    public class NewsComment
     {
         public int Id { get; set; }
         [Required]
-        public int AchievementId { get; set; }
-        [ForeignKey("AchievementId")]
-        public Achievement Achievement { get; set; }
+        public string Content { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
         [Required]
         public string UserId { get; set; }
         [ForeignKey("UserId")]
         public ApplicationUser User { get; set; }
-        public DateTime UnlockedAt { get; set; } = DateTime.Now;
+        [Required]
+        public int NewsPostId { get; set; }
+        [ForeignKey("NewsPostId")]
+        public NewsPost NewsPost { get; set; }
     }
 } 

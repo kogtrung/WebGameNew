@@ -506,35 +506,78 @@
 
 
             <!-- User Reviews Section -->
-            @if (Model.Reviews != null && Model.Reviews.Any())
+            @if (ViewBag.AllReviews != null && ((List<WebGame.Models.Review>)ViewBag.AllReviews).Any())
             {
                 <div class="game-info-section">
-                    <h2 class="section-title">
-                        <i class="fas fa-comments me-2"></i>USER REVIEWS
-                    </h2>
-                    @foreach (var review in Model.Reviews.OrderByDescending(r => r.ReviewDate))
-                    {
-                        <div class="review-card" data-review-id="@review.Id">
-                            <div class="review-header">
-                                <div>
-                                    <small class="text-muted">By @review.CriticName on @review.ReviewDate.ToString("MMM d, yyyy")</small>
+                    <h2 class="section-title">USER REVIEWS</h2>
+                    <ul class="nav nav-tabs mb-3" id="platformTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button" role="tab" aria-controls="all" aria-selected="true">Tất cả</button>
+                        </li>
+                        @if (ViewBag.Platforms != null)
+                        {
+                            foreach (var p in (List<WebGame.Models.Platform>)ViewBag.Platforms)
+                            {
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="tab-@p.Id" data-bs-toggle="tab" data-bs-target="#platform-@p.Id" type="button" role="tab" aria-controls="platform-@p.Id" aria-selected="false">@p.Name</button>
+                                </li>
+                            }
+                        }
+                    </ul>
+                    <div class="tab-content" id="platformTabContent">
+                        <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+                            @foreach (var review in (List<WebGame.Models.Review>)ViewBag.AllReviews)
+                            {
+                                <div class="review-card" data-review-id="@review.Id">
+                                    <div class="review-header">
+                                        <div>
+                                            <small class="text-muted">By @review.CriticName on @review.ReviewDate.ToString("MMM d, yyyy")</small>
+                                        </div>
+                                        <div class="review-score @(review.Score >= 8 ? "bg-success" : (review.Score >= 6 ? "bg-warning" : "bg-danger"))">
+                                            @(review.Score.ToString("0"))
+                                        </div>
+                                    </div>
+                                    <p>@review.Content</p>
+                                    <div class="review-footer">
+                                        <!-- Xóa dòng helpful count và nút Helpful -->
+                                    </div>
                                 </div>
-                                <div class="review-score @(review.Score >= 8 ? "bg-success" : (review.Score >= 6 ? "bg-warning" : "bg-danger"))">
-                                    @(review.Score.ToString("0"))
-                                </div>
-                            </div>
-                            <p>@review.Content</p>
-                            <div class="review-footer">
-                                <small class="text-muted helpful-count">@review.HelpfulCount people found this helpful</small>
-                                @if (User.Identity.IsAuthenticated)
-                                {
-                                    <button class="btn btn-sm btn-outline-secondary ms-2 helpful-button" onclick="markHelpful(@review.Id)">
-                                        <i class="fas fa-thumbs-up"></i> Helpful
-                                    </button>
-                                }
-                            </div>
+                            }
                         </div>
-                    }
+                        @if (ViewBag.Platforms != null && ViewBag.ReviewsByPlatform != null)
+                        {
+                            foreach (var p in (List<WebGame.Models.Platform>)ViewBag.Platforms)
+                            {
+                                var reviews = ((Dictionary<int, List<WebGame.Models.Review>>)ViewBag.ReviewsByPlatform).ContainsKey(p.Id) ? ((Dictionary<int, List<WebGame.Models.Review>>)ViewBag.ReviewsByPlatform)[p.Id] : new List<WebGame.Models.Review>();
+                                <div class="tab-pane fade" id="platform-@p.Id" role="tabpanel" aria-labelledby="tab-@p.Id">
+                                    @if (reviews.Any())
+                                    {
+                                        foreach (var review in reviews)
+                                        {
+                                            <div class="review-card" data-review-id="@review.Id">
+                                                <div class="review-header">
+                                                    <div>
+                                                        <small class="text-muted">By @review.CriticName on @review.ReviewDate.ToString("MMM d, yyyy")</small>
+                                                    </div>
+                                                    <div class="review-score @(review.Score >= 8 ? "bg-success" : (review.Score >= 6 ? "bg-warning" : "bg-danger"))">
+                                                        @(review.Score.ToString("0"))
+                                                    </div>
+                                                </div>
+                                                <p>@review.Content</p>
+                                                <div class="review-footer">
+                                                    <!-- Xóa dòng helpful count và nút Helpful -->
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="text-muted">Chưa có review cho nền tảng này.</div>
+                                    }
+                                </div>
+                            }
+                        }
+                    </div>
                 </div>
             }
 
@@ -542,12 +585,11 @@
             @if (User.Identity.IsAuthenticated)
             {
                 <div class="game-info-section">
-                    <h2 class="section-title">
-                        <i class="fas fa-pen me-2"></i>WRITE A REVIEW
-                    </h2>
-                    <form asp-action="SubmitReview" asp-controller="Game" method="post">
+                    <h2 class="section-title">WRITE A REVIEW</h2>
+                    <form asp-action="SubmitReview" asp-controller="Game" method="post" id="reviewForm">
                         @Html.AntiForgeryToken()
                         <input type="hidden" name="gameId" value="@Model.Id" />
+                        <input type="hidden" name="platformId" id="reviewPlatformId" value="" />
                         <div class="mb-3">
                             <label class="form-label">Review</label>
                             <textarea name="reviewText" class="form-control" rows="4" required></textarea>
@@ -560,6 +602,27 @@
                         <button type="submit" class="btn btn-primary">Submit Review</button>
                     </form>
                 </div>
+                <script>
+                    // Khi chuyển tab, cập nhật platformId cho form review
+                    document.addEventListener('DOMContentLoaded', function() {
+                        var platformTabs = document.querySelectorAll('#platformTab button[data-bs-toggle="tab"]');
+                        var reviewPlatformId = document.getElementById('reviewPlatformId');
+                        if (platformTabs && reviewPlatformId) {
+                            platformTabs.forEach(function(tabBtn) {
+                                tabBtn.addEventListener('shown.bs.tab', function(e) {
+                                    var target = e.target.getAttribute('data-bs-target');
+                                    if (target === '#all') {
+                                        reviewPlatformId.value = '';
+                                    } else if (target.startsWith('#platform-')) {
+                                        reviewPlatformId.value = target.replace('#platform-', '');
+                                    }
+                                });
+                            });
+                            // Mặc định khi vào tab đầu tiên (Tất cả)
+                            reviewPlatformId.value = '';
+                        }
+                    });
+                </script>
             }
         </div>
 
@@ -709,20 +772,6 @@
                             </a>
                         }
                     }
-                </div>
-            </div>
-            <!-- Achievements & Leaderboard Links -->
-            <div class="game-info-section">
-                <h2 class="section-title"><i class="fas fa-trophy me-2"></i>GAME EXTRAS</h2>
-                <div class="d-grid gap-2">
-                    <a href="@Url.Action("Index", "Achievement", new { gameId = Model.Id })" class="btn btn-outline-warning mb-2 d-flex align-items-center justify-content-center">
-                        <i class="fas fa-trophy me-1"></i>
-                        <span>Achievements</span>
-                    </a>
-                    <a href="@Url.Action("Index", "Leaderboard", new { gameId = Model.Id })" class="btn btn-outline-primary d-flex align-items-center justify-content-center">
-                        <i class="fas fa-list-ol me-1"></i>
-                        <span>Leaderboard</span>
-                    </a>
                 </div>
             </div>
         </div>

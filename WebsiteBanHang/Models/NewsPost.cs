@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace WebGame.Models
 {
@@ -28,5 +29,7 @@ namespace WebGame.Models
         
         [StringLength(50)]
         public string? Category { get; set; }
+
+        public ICollection<NewsComment> Comments { get; set; } = new List<NewsComment>();
     }
 }

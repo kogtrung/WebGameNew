@@ -12,6 +12,7 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">Profile</a></li>
+                <li><a class="dropdown-item" asp-controller="Notifications" asp-action="Index">Thông báo</a></li>
                 @if (User.IsInRole("Admin"))
                 {
                     <li><a class="dropdown-item" asp-area="Admin" asp-controller="Home" asp-action="Index">Admin Dashboard</a></li>

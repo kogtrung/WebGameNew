@@ -36,9 +36,7 @@
         public DbSet<ForumReport> ForumReports { get; set; }
         public DbSet<ForumNotification> ForumNotifications { get; set; }
 
-        public DbSet<Achievement> Achievements { get; set; }
-        public DbSet<UserAchievement> UserAchievements { get; set; }
-        public DbSet<LeaderboardEntry> LeaderboardEntries { get; set; }
+        public DbSet<NewsComment> NewsComments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -173,12 +171,6 @@
                 .WithMany()
                 .HasForeignKey(r => r.ForumCommentId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Achievement>()
-                .HasOne(a => a.Game)
-                .WithMany(g => g.Achievements)
-                .HasForeignKey(a => a.GameId)
-                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

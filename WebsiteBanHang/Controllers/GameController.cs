@@ -601,7 +601,7 @@ namespace WebGame.Controllers
         // GET: Game/Details/5
         [HttpGet]
         [Route("Game/Details/{id}")]
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int id, int? platformId = null)
         {
             var game = await _context.Games
                 .Include(g => g.Reviews)
@@ -613,6 +613,20 @@ namespace WebGame.Controllers
             {
                 return NotFound();
             }
+
+            // Lấy danh sách platform của game
+            var platforms = game.GamePlatforms?.Select(gp => gp.Platform).Where(p => p != null).Distinct().ToList() ?? new List<Platform>();
+            ViewBag.Platforms = platforms;
+            ViewBag.SelectedPlatformId = platformId;
+
+            // Tạo dictionary reviews theo từng platform
+            var reviewsByPlatform = new Dictionary<int, List<Review>>();
+            foreach (var p in platforms)
+            {
+                reviewsByPlatform[p.Id] = game.Reviews?.Where(r => r.PlatformId == p.Id).OrderByDescending(r => r.ReviewDate).ToList() ?? new List<Review>();
+            }
+            ViewBag.ReviewsByPlatform = reviewsByPlatform;
+            ViewBag.AllReviews = game.Reviews?.OrderByDescending(r => r.ReviewDate).ToList() ?? new List<Review>();
 
             // Check if the current user follows this game
             bool isFollowing = false;
@@ -632,7 +646,7 @@ namespace WebGame.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SubmitReview(int gameId, string reviewText, int score)
+        public async Task<IActionResult> SubmitReview(int gameId, string reviewText, int score, int? platformId)
         {
             if (!User.Identity.IsAuthenticated)
             {
@@ -660,7 +674,8 @@ namespace WebGame.Controllers
                 ReviewDate = DateTime.Now,
                 CriticName = user.UserName,
                 CriticWebsite = "",
-                Title = game.Title
+                Title = game.Title,
+                PlatformId = platformId
             };
 
             _context.Reviews.Add(review);
